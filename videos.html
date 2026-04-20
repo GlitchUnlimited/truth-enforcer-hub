@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Videos • HD2 Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      font-family: system-ui, sans-serif;
+    }
+
+    .nav-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #111111;
+      border: 2px solid #3f3f46;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-8px);
+      border-color: #00bfff;
+      box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .video-thumbnail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.5rem;
+      color: #00bfff;
+      text-shadow: 0 0 20px rgba(0,191,255,0.8);
+      z-index: 10;
+    }
+
+    .sky-blue { color: #00bfff; }
+    .glow-blue { text-shadow: 0 0 25px rgb(0 191 255); }
+
+    .blue-banner {
+      background: linear-gradient(90deg, #0a2540, #003366);
+      border: 2px solid #00bfff;
+      border-radius: 16px;
+      padding: 28px 40px;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen pb-12">
+  <div class="max-w-7xl mx-auto p-8">
+
+    <!-- Blue Banner -->
+    <div class="blue-banner">
+      <div class="flex items-center justify-center gap-4 text-4xl font-black">
+        <i class="fas fa-skull-crossbones sky-blue"></i>
+        <span class="glow-blue">HD2 HUB</span>
+      </div>
+      <p class="text-sky-300 mt-3 text-xl">
+        Super Earth Intelligence Division • Recent Videos
+      </p>
+    </div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="inline-flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-10 text-lg">
+      ← Back to HD2 Hub
+    </a>
+
+    <h1 class="text-5xl font-bold mb-2 flex items-center gap-4">
+      <i class="fas fa-video sky-blue"></i>
+      Recent Videos
+    </h1>
+    <p class="text-gray-400 text-xl mb-12">Latest Helldivers 2 content from the GlitchUnlimited channel</p>
+
+    <!-- Videos Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="videos-container">
+      <!-- Videos will be loaded by JavaScript -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-center text-gray-500 text-sm">
+      <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
+      <p class="mt-4">
+        <a href="index.html" class="hover:text-sky-400 underline">Return to Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    const videos = [
+      {
+        title: "Helldivers 2 - Patch 1.004.1 Breakdown & New Changes",
+        date: "April 18, 2026",
+        duration: "12:45",
+        thumbnail: "https://picsum.photos/id/133/800/450",
+        link: "https://youtube.com/watch?v=example1"
+      },
+      {
+        title: "Why the New Warbond is Actually Good - Honest Review",
+        date: "April 15, 2026",
+        duration: "18:22",
+        thumbnail: "https://picsum.photos/id/201/800/450",
+        link: "https://youtube.com/watch?v=example2"
+      },
+      {
+        title: "Hidden Mechanics You’re Probably Missing in 2026",
+        date: "April 12, 2026",
+        duration: "14:10",
+        thumbnail: "https://picsum.photos/id/870/800/450",
+        link: "https://youtube.com/watch?v=example3"
+      },
+      {
+        title: "Super Earth Intelligence - Weekly Community Report",
+        date: "April 10, 2026",
+        duration: "25:33",
+        thumbnail: "https://picsum.photos/id/1015/800/450",
+        link: "https://youtube.com/watch?v=example4"
+      }
+      // Add more videos here easily
+    ];
+
+    function renderVideos() {
+      const container = document.getElementById('videos-container');
+      container.innerHTML = '';
+
+      videos.forEach(video => {
+        const card = document.createElement('a');
+        card.href = video.link;
+        card.target = "_blank";
+        card.className = "nav-card rounded-3xl group block";
+        card.innerHTML = `
+          <div class="video-thumbnail relative" style="background-image: url('${video.thumbnail}');">
+            <i class="fas fa-play-circle play-icon"></i>
+            <div class="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded font-mono">
+              ${video.duration}
+            </div>
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl font-semibold leading-tight mb-3 group-hover:text-sky-400 transition-colors">
+              ${video.title}
+            </h3>
+            <p class="text-gray-400 text-sm">${video.date}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Initialize
+    renderVideos();
+  </script>
+</body>
+</html>
