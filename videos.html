@@ -11,177 +11,180 @@
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
       font-family: system-ui, sans-serif;
     }
+    .sky-blue { color: #00bfff; }
 
-    .video-card {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .featured-box {
       background: #111111;
       border: 2px solid #3f3f46;
-    }
-
-    .video-card:hover {
-      transform: translateY(-12px);
-      border-color: #00bfff;
-      box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
-    }
-
-    .thumbnail-container {
-      position: relative;
+      border-radius: 24px;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: 7fr 5fr;   /* Thumbnail slightly larger */
+      gap: 0;
+      transition: all 0.4s ease;
     }
 
-    .thumbnail {
-      transition: transform 0.5s ease;
+    .featured-box:hover {
+      border-color: #00bfff;
+      box-shadow: 0 30px 60px -15px rgb(0 191 255 / 0.5);
     }
 
-    .video-card:hover .thumbnail {
-      transform: scale(1.08);
+    .thumbnail-side {
+      position: relative;
+      background: #000;
     }
 
-    .play-overlay {
+    .thumbnail-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .featured-box:hover .thumbnail-side img {
+      transform: scale(1.05);
+    }
+
+    .blue-accent {
       position: absolute;
-      inset: 0;
-      background: rgba(0, 191, 255, 0.15);
-      opacity: 0;
-      transition: opacity 0.3s;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      background: linear-gradient(to bottom, #00bfff, #0077cc);
+    }
+
+    .info-side {
+      padding: 45px 50px;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
     }
-
-    .video-card:hover .play-overlay {
-      opacity: 1;
-    }
-
-    .sky-blue { color: #00bfff; }
   </style>
 </head>
 <body class="text-white min-h-screen pb-20">
   <div class="max-w-7xl mx-auto p-8">
 
-    <!-- Back Button -->
-    <a href="index.html" class="inline-flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-8 text-lg">
+    <a href="index.html" class="inline-flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-10">
       ← Back to HD2 Hub
     </a>
 
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-      <div>
-        <h1 class="text-5xl font-bold flex items-center gap-4">
-          <i class="fas fa-video sky-blue"></i>
-          Recent Videos
-        </h1>
-        <p class="text-gray-400 text-xl mt-3">
-          Latest Helldivers 2 content from 
-          <a href="https://www.youtube.com/@GlitchUnlimited" target="_blank" class="hover:text-sky-400 underline">@GlitchUnlimited</a>
-        </p>
+    <h1 class="text-5xl font-bold flex items-center gap-4 mb-12">
+      <i class="fas fa-video sky-blue"></i>
+      Recent Videos
+    </h1>
+
+    <!-- Featured Newest Video -->
+    <div id="featured-box" class="featured-box mb-20">
+      <!-- Left: Thumbnail with blue bar -->
+      <div class="thumbnail-side relative">
+        <div class="blue-accent"></div>
+        <img id="featured-thumbnail" src="" alt="Latest Video">
       </div>
-      
+
+      <!-- Right: Info + Real Video Description -->
+      <div class="info-side">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="px-6 py-2 bg-red-600 text-white text-sm font-bold rounded-2xl">NEWEST UPLOAD</span>
+          <span id="featured-date" class="text-gray-400 text-sm"></span>
+        </div>
+
+        <h2 id="featured-title" class="text-3xl font-bold leading-tight mb-6"></h2>
+
+        <!-- Actual description from the video -->
+        <div id="featured-desc" class="text-gray-300 text-[15.5px] leading-relaxed mb-10 flex-1 overflow-auto max-h-52"></div>
+
+        <button id="watch-btn"
+                onclick="window.open('#', '_blank')"
+                class="mt-auto w-full bg-sky-600 hover:bg-sky-500 transition-colors py-5 rounded-2xl font-semibold text-lg flex items-center justify-center gap-3">
+          <i class="fas fa-play"></i>
+          Watch Video Now
+        </button>
+      </div>
+    </div>
+
+    <!-- More Videos Grid -->
+    <h2 class="text-3xl font-semibold mb-8 flex items-center gap-3">
+      <i class="fas fa-list-ul"></i>
+      More Recent Videos
+    </h2>
+
+    <div id="video-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <!-- Other videos go here -->
+    </div>
+
+    <div class="mt-20 text-center">
       <a href="https://www.youtube.com/@GlitchUnlimited" 
          target="_blank"
-         class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl font-semibold text-lg transition-all">
+         class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 px-10 py-5 rounded-2xl font-semibold text-lg transition-colors">
         <i class="fab fa-youtube text-2xl"></i>
-        Visit Full Channel
+        Watch All Videos on YouTube
       </a>
     </div>
-
-    <!-- Video Grid -->
-    <div id="video-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-      <!-- Videos loaded here -->
-    </div>
-
-    <!-- Load More -->
-    <div class="flex justify-center mt-16">
-      <button id="load-more-btn"
-              class="px-10 py-4 bg-sky-600 hover:bg-sky-500 transition-colors rounded-2xl font-semibold text-lg flex items-center gap-3">
-        <i class="fas fa-plus"></i>
-        Load More Videos
-      </button>
-    </div>
-
-    <div id="loading" class="hidden text-center text-gray-400 mt-8">
-      Loading more videos...
-    </div>
-
   </div>
 
   <script>
-    let allVideos = [];
-    let displayedCount = 0;
-    const videosPerLoad = 8;
-
     async function loadYouTubeVideos() {
-      const container = document.getElementById('video-grid');
-      container.innerHTML = `<p class="col-span-full text-center py-20 text-gray-400">Loading latest videos from @GlitchUnlimited...</p>`;
-
       try {
-        const channelID = "UCcnkqkNWjiwLcDUx0WshOmg"; // GlitchUnlimited Channel ID
+        const channelID = "UCcnkqkNWjiwLcDUx0WshOmg";
         const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
         const response = await fetch(apiUrl);
         const data = await response.json();
 
-        if (!data.items || data.items.length === 0) {
-          container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20">Could not load videos right now.</p>`;
-          return;
-        }
+        if (!data.items || data.items.length === 0) return;
 
-        allVideos = data.items;
-        displayedCount = 0;
-        renderVideos();
+        const videos = data.items;
+        const newest = videos[0];
+        const videoId = newest.link.split('v=')[1] || newest.link.split('/').pop();
+
+        // Featured Video - Thumbnail
+        document.getElementById('featured-thumbnail').src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+        // Title and Date
+        document.getElementById('featured-title').textContent = newest.title;
+        document.getElementById('featured-date').textContent = 
+          new Date(newest.pubDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+        // Real Video Description (from RSS)
+        let desc = newest.description || "No description available for this video.";
+        // Clean up common HTML tags from RSS
+        desc = desc.replace(/<[^>]+>/g, ' ').trim();
+        document.getElementById('featured-desc').textContent = desc;
+
+        // Watch button
+        document.getElementById('watch-btn').onclick = () => window.open(newest.link, '_blank');
+
+        // More Videos Grid
+        const grid = document.getElementById('video-grid');
+        grid.innerHTML = '';
+
+        videos.slice(1).forEach(video => {
+          const vidId = video.link.split('v=')[1] || video.link.split('/').pop();
+
+          const card = document.createElement('div');
+          card.className = `video-card rounded-3xl overflow-hidden cursor-pointer border border-zinc-700 hover:border-sky-400`;
+          card.innerHTML = `
+            <div class="relative">
+              <img src="https://img.youtube.com/vi/${vidId}/hqdefault.jpg" 
+                   class="w-full aspect-video object-cover" alt="${video.title}">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-semibold text-base leading-tight line-clamp-2 mb-3">${video.title}</h3>
+              <p class="text-xs text-gray-500">${new Date(video.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+            </div>
+          `;
+          card.addEventListener('click', () => window.open(video.link, '_blank'));
+          grid.appendChild(card);
+        });
 
       } catch (error) {
-        console.error(error);
-        container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20">Failed to load videos.<br>Please check your connection.</p>`;
+        console.error("Failed to load videos:", error);
       }
     }
 
-    function renderVideos() {
-      const container = document.getElementById('video-grid');
-      const nextBatch = allVideos.slice(displayedCount, displayedCount + videosPerLoad);
-
-      nextBatch.forEach(item => {
-        const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
-
-        const card = document.createElement('div');
-        card.className = `video-card rounded-3xl overflow-hidden cursor-pointer`;
-        card.innerHTML = `
-          <div class="thumbnail-container relative">
-            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" 
-                 class="thumbnail w-full aspect-video object-cover" 
-                 alt="${item.title}">
-            <div class="play-overlay">
-              <i class="fas fa-play-circle text-6xl text-white drop-shadow-lg"></i>
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="font-semibold text-[17px] leading-tight line-clamp-2 mb-4">${item.title}</h3>
-            <p class="text-xs text-gray-500">
-              ${new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            </p>
-          </div>
-        `;
-
-        card.addEventListener('click', () => window.open(item.link, '_blank'));
-        container.appendChild(card);
-      });
-
-      displayedCount += nextBatch.length;
-
-      if (displayedCount >= allVideos.length) {
-        document.getElementById('load-more-btn').style.display = 'none';
-      }
-    }
-
-    // Load More Button
-    document.getElementById('load-more-btn').addEventListener('click', () => {
-      document.getElementById('loading').classList.remove('hidden');
-      setTimeout(() => {
-        renderVideos();
-        document.getElementById('loading').classList.add('hidden');
-      }, 500);
-    });
-
-    // Start loading videos
+    // Run when page loads
     loadYouTubeVideos();
   </script>
 </body>
