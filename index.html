@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HD2 Hub • Super Earth Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      font-family: system-ui, sans-serif;
+    }
+
+    .nav-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #111111;
+      border: 2px solid #3f3f46;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-12px) scale(1.03);
+      border-color: #00bfff;
+      box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
+    }
+
+    /* Image container */
+    .card-image {
+      position: relative;
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    /* Glare / Shine effect - now with sky blue tint */
+    .card-image::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 50%;
+      height: 300%;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.45) 50%,
+        transparent 70%
+      );
+      transform: skewX(-25deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .nav-card:hover .card-image::after {
+      top: -50%;
+      left: -50%;
+      opacity: 1;
+      transition: all 0.8s ease;
+    }
+
+    .sky-blue { color: #00bfff; }
+    .glow-blue { text-shadow: 0 0 20px rgb(0 191 255); }
+  </style>
+</head>
+<body class="text-white min-h-screen">
+  <div class="max-w-7xl mx-auto p-8">
+    
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <div class="flex justify-center items-center gap-4 mb-4">
+        <i class="fas fa-skull-crossbones text-6xl sky-blue"></i>
+        <h1 class="text-7xl font-black tracking-tighter glow-blue">HD2 HUB</h1>
+      </div>
+      <p class="text-2xl text-gray-400">Super Earth Intelligence Division • Real-time Helldivers 2 Tracker</p>
+      <div class="mt-6 inline-flex items-center gap-2 bg-zinc-900 border border-sky-900 px-6 py-2 rounded-full text-sm">
+        <div class="w-3 h-3 bg-sky-400 rounded-full animate-pulse"></div>
+        LIVE FROM THE FRONTLINES — April 2026
+      </div>
+    </div>
+
+    <!-- Navigation Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Known Issues -->
+      <a href="issues.html" class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-bug text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+            <span class="px-5 py-2 bg-sky-950 text-sky-400 text-xs font-bold uppercase tracking-widest rounded-2xl">Official</span>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Known Issues</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Confirmed bugs from Arrowhead. Updated regularly.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            ENTER THE BUG TRACKER <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Patch Notes -->
+      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" 
+         target="_blank" 
+         class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-newspaper text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+            <span class="px-5 py-2 bg-emerald-950 text-emerald-400 text-xs font-bold uppercase tracking-widest rounded-2xl">Latest</span>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Patch Notes</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Read the official changes from Arrowhead.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            VIEW OFFICIAL PATCHES <i class="fas fa-external-link-alt"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Undocumented Changes -->
+      <a href="undocumented.html" class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/870/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-eye-slash text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+            <span class="px-5 py-2 bg-amber-950 text-amber-400 text-xs font-bold uppercase tracking-widest rounded-2xl">Stealth</span>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Undocumented Changes</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Community-discovered stealth buffs, nerfs & hidden tweaks.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            REVEAL THE TRUTH <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Community Reports -->
+      <a href="#" onclick="alert('Community Reports page coming soon! Link this to GitHub Issues later.')" 
+         class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/1016/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-users text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Community Reports</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Player-submitted bugs, videos, and workarounds.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            SHARE YOUR FINDINGS <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Roadmap -->
+      <a href="https://www.g2a.com/news/latest/helldivers-2-roadmap-2026-machinery-of-oppression-updates-explained/" 
+         target="_blank" 
+         class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/133/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-road text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Roadmap 2026</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Machinery of Oppression & future content plans.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            SEE WHAT'S COMING <i class="fas fa-external-link-alt"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Resources -->
+      <a href="#" onclick="alert('Resources page coming soon!')" 
+         class="nav-card rounded-3xl group">
+        <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
+        <div class="p-10">
+          <div class="flex justify-between items-start mb-6">
+            <i class="fas fa-book text-6xl sky-blue group-hover:scale-110 transition-transform"></i>
+          </div>
+          <h2 class="text-4xl font-bold mb-3">Resources</h2>
+          <p class="text-gray-400 text-lg leading-relaxed">Links, tools, wikis, and more for dedicated Helldivers.</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            ARMORY ACCESS <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-24 text-center text-gray-500 text-sm">
+      <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
+      <p class="mt-3">
+        Built with ❤️ for the Helldivers community • 
+        <a href="https://github.com/YOURUSERNAME/hd2-hub" target="_blank" class="hover:text-sky-400 underline">Contribute on GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
