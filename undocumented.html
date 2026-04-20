@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undocumented Changes • HD2 Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      font-family: system-ui, sans-serif;
+    }
+
+    .nav-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #111111;
+      border: 2px solid #3f3f46;
+    }
+
+    .nav-card:hover {
+      transform: translateY(-8px);
+      border-color: #00bfff;
+      box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
+    }
+
+    .card-image {
+      position: relative;
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .card-image::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 50%;
+      height: 300%;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+      transform: skewX(-25deg);
+      transition: all 0.7s ease;
+      opacity: 0;
+    }
+
+    .nav-card:hover .card-image::after {
+      top: -30%;
+      left: -30%;
+      opacity: 1;
+    }
+
+    .sky-blue { color: #00bfff; }
+    .glow-blue { text-shadow: 0 0 20px rgb(0 191 255); }
+  </style>
+</head>
+<body class="text-white min-h-screen pb-12">
+  <div class="max-w-6xl mx-auto p-8">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-12 border-b border-sky-900 pb-8">
+      <div>
+        <a href="index.html" class="flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-4 text-lg">
+          ← Back to HD2 Hub
+        </a>
+        <h1 class="text-5xl font-bold flex items-center gap-4">
+          <i class="fas fa-eye-slash sky-blue"></i>
+          Undocumented Changes
+        </h1>
+        <p class="text-gray-400 mt-3 text-lg">Stealth changes, hidden buffs/nerfs, and fixes not listed in official patch notes</p>
+      </div>
+      <div class="text-right text-sm text-gray-500">
+        Community Compiled • Last updated: April 2026
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-10">
+      <input id="search" 
+             type="text" 
+             placeholder="Search weapons, stratagems, or enemies... (e.g. Liberator, Burn damage, Hulk)"
+             class="w-full bg-zinc-900 border border-zinc-700 focus:border-sky-500 rounded-3xl px-8 py-5 text-lg outline-none">
+    </div>
+
+    <!-- Changes Grid -->
+    <div id="changes-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-center text-gray-500 text-sm">
+      <p>Fan-compiled list • Not official • Arrowhead sometimes confirms these as unintended</p>
+      <p class="mt-4">
+        <a href="index.html" class="hover:text-sky-400 underline">Return to Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    const undocumentedChanges = [
+      { category: "Primary Weapons", title: "Liberator", date: "2024-09-17", change: "Real durable damage value is 15 instead of 17." },
+      { category: "Primary Weapons", title: "Liberator Penetrator", date: "2024-09-17", change: "Stagger Force reduced from 15 to 10." },
+      { category: "Primary Weapons", title: "Liberator Concussive", date: "2025-03-18", change: "Spare magazines decreased from 6 to 5<br>Starting magazines decreased from 4 to 2<br>Ergonomic effect decreased from -10 to 0" },
+      { category: "Primary Weapons", title: "StA-52 Assault Rifle", date: "2025-10-23", change: "Damage increased from 80 to 90<br>Recoil reduced from 19 to 14" },
+      { category: "Primary Weapons", title: "Tenderizer", date: "2024-06-13", change: "Now receives full ammo from Resupply<br>Now receives 3 magazines from ammo boxes instead of 2" },
+      { category: "Primary Weapons", title: "Diligence", date: "2024-09-17", change: "Real durable damage value is 45 instead of 42" },
+      { category: "Primary Weapons", title: "Defender", date: "2025-10-23", change: "Durable damage actually increased from 8 to 20" },
+      { category: "Primary Weapons", title: "Pummeler", date: "2025-10-23", change: "Durable damage actually increased from 7 to 17" },
+      { category: "Primary Weapons", title: "Double-Edge Sickle", date: "2025-10-23", change: "0-25% heat: Damage increased from 55 to 60<br>Durable damage increased from 5 to 6" },
+      { category: "Primary Weapons", title: "Scythe", date: "2025-05-13", change: "Burning damage now scales with enemy size<br>Burn damage increased from 50 to 100" },
+      { category: "Secondary Weapons", title: "Senator", date: "2025-10-23", change: "Damage increased from 200 to 225<br>Durable Damage increased from 70 to 75" },
+      { category: "Secondary Weapons", title: "Stun Baton", date: "2025-06-10", change: "Held Stun baton no longer obstructs the view while operating a terminal" },
+      { category: "Grenades & Support", title: "Incendiary Grenades", date: "2025-05-13", change: "Burn damage increased from 50 to 100" },
+      { category: "Grenades & Support", title: "Thermite Grenade", date: "2024-09-17", change: "Explosion radii increased (Inner 1m→1.5m, Outer 2m→2.5m, Shockwave 3m→4m)" },
+      { category: "Stratagems", title: "Orbital Smoke Strike", date: "2025-07-15", change: "Now deals massive damage (300 standard + 300 durable) with high penetration" },
+      { category: "Stratagems", title: "Laser Cannon", date: "2025-05-13", change: "Burn damage increased from 50 to 100" },
+      { category: "Enemies", title: "Hive Guard", date: "2026-03-17", change: "Claws: Armor increased to Medium<br>Health increased from 100 to 125<br>Transfer to main increased to 45%" },
+      { category: "Enemies", title: "Charger / Behemoth", date: "2024-09-17", change: "Main health significantly increased (1500→2400 / 1800→3000)" },
+      { category: "Enemies", title: "Factory Strider", date: "2024-09-17", change: "Main health increased from 5,000 to 10,000" },
+      { category: "Fixes & Misc", title: "Melee Weapons", date: "2025-07-15", change: "No longer ignore breakable armor" },
+      { category: "Fixes & Misc", title: "Supply Pack", date: "2025-12-02", change: "Fixed bug where supply packs gave ammo without consuming a charge" }
+    ];
+
+    function renderChanges(filtered = undocumentedChanges) {
+      const container = document.getElementById('changes-container');
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-center text-gray-400 py-12">No matching changes found.</p>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `nav-card rounded-3xl p-6`;
+        card.innerHTML = `
+          <div class="card-image mb-6" style="background-image: url('https://picsum.photos/id/870/800/300');"></div>
+          <div class="flex justify-between items-start mb-4">
+            <span class="px-4 py-1 text-xs font-bold uppercase tracking-widest bg-sky-950 text-sky-400 rounded-2xl">${item.category}</span>
+            <span class="text-xs text-gray-500">${item.date}</span>
+          </div>
+          <h3 class="text-2xl font-semibold mb-3">${item.title}</h3>
+          <div class="text-gray-300 text-[15px] leading-relaxed">${item.change}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Search
+    document.getElementById('search').addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const filtered = term ? 
+        undocumentedChanges.filter(item => 
+          item.title.toLowerCase().includes(term) || 
+          item.change.toLowerCase().includes(term) || 
+          item.category.toLowerCase().includes(term)
+        ) : undocumentedChanges;
+      renderChanges(filtered);
+    });
+
+    // Load changes
+    renderChanges();
+  </script>
+</body>
+</html>
