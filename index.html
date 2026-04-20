@@ -83,15 +83,14 @@
         <i class="fas fa-scroll text-3xl sky-blue"></i>
         <h2 class="text-3xl font-bold">Major Order Briefing</h2>
       </div>
-      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[120px]">
-        Connecting to Super Earth High Command...
+      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[140px]">
+        Contacting Super Earth High Command...
       </div>
       <div id="last-updated" class="text-xs text-gray-500 mt-4"></div>
     </div>
 
-    <!-- Navigation Grid -->
+    <!-- Navigation Grid (all your boxes) -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
       <!-- Known Issues -->
       <a href="issues.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
@@ -201,32 +200,31 @@
       briefingEl.textContent = "Contacting Super Earth High Command...";
 
       try {
-        const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders', {
-          cache: 'no-store'
+        const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders', { 
+          cache: 'no-store' 
         });
-
         const data = await res.json();
 
         if (data && data.length > 0) {
           const mo = data[0];
-          const briefing = mo.briefing || mo.description || mo.title || "Major Order is active. Details loading...";
-          
-          briefingEl.textContent = briefing;
+          // Try multiple possible fields where the text might be
+          const text = mo.briefing || mo.description || mo.title || "Major Order is active.";
+          briefingEl.textContent = text;
           lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
         } else {
-          briefingEl.textContent = "No active Major Order at this time. Stand by for new orders from High Command.";
+          briefingEl.textContent = "No active Major Order right now. Stand by for new orders from High Command.";
         }
-      } catch (error) {
-        console.error(error);
-        briefingEl.textContent = "Unable to reach Super Earth Command right now. The site will try again automatically.";
+      } catch (err) {
+        console.error(err);
+        briefingEl.textContent = "Temporarily unable to load Major Order briefing. The page will keep trying automatically.";
       }
     }
 
-    // Initial load
+    // Load on start
     fetchMajorOrderBriefing();
 
-    // Auto refresh every 45 seconds
-    setInterval(fetchMajorOrderBriefing, 45000);
+    // Refresh every 40 seconds
+    setInterval(fetchMajorOrderBriefing, 40000);
   </script>
 </body>
 </html>
