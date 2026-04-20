@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Truth Enforcer Hub • Super Earth</title>
+  <title>HD2 Hub • Super Earth Intelligence</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
@@ -57,6 +57,10 @@
       margin-bottom: 50px;
       text-align: center;
     }
+    .mo-box {
+      background: linear-gradient(135deg, #1a2533, #0f172a);
+      border: 2px solid #00bfff;
+    }
   </style>
 </head>
 <body class="text-white min-h-screen">
@@ -73,35 +77,31 @@
       </p>
     </div>
 
-    <!-- Major Order Section -->
-    <div id="major-order-box" class="bg-red-600 rounded-3xl p-8 mb-12 border-4 border-red-500">
-      <div class="flex justify-between items-start mb-6">
-        <span class="text-4xl font-black">MAJOR ORDER</span>
-        <span id="major-order-time" class="text-sm bg-red-700 px-4 py-1 rounded-xl"></span>
+    <!-- Major Order Briefing -->
+    <div class="mo-box rounded-3xl p-8 mb-12">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-scroll text-3xl sky-blue"></i>
+          <h2 class="text-3xl font-bold">Major Order Briefing</h2>
+        </div>
+        <div id="last-updated" class="text-xs text-gray-500"></div>
+      </div>
+      
+      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[100px]">
+        Loading briefing from Super Earth High Command...
       </div>
 
-      <h3 id="major-order-title" class="text-2xl font-bold mb-4">Loading current Major Order...</h3>
-      <p id="major-order-desc" class="text-red-100 text-sm leading-relaxed mb-8"></p>
-
-      <div class="mt-6">
-        <div class="text-xs text-red-200 mb-2">PROGRESS</div>
-        <div class="h-3 bg-red-900 rounded-full overflow-hidden">
-          <div id="major-progress-bar" class="h-full bg-yellow-400 w-0 transition-all duration-1000"></div>
+      <div id="progress-info" class="mt-6 hidden">
+        <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-sky-500 w-0 transition-all duration-700"></div>
         </div>
-        <div class="flex justify-between text-xs mt-1 text-red-200">
-          <span id="major-progress-text">0%</span>
-          <span id="major-goal-text"></span>
-        </div>
+        <p id="progress-text" class="text-sm text-sky-400 mt-2"></p>
       </div>
-
-      <button onclick="showMajorOrderModal()" 
-              class="mt-8 w-full bg-yellow-400 hover:bg-yellow-300 transition-colors text-black font-bold py-4 rounded-2xl text-lg">
-        VIEW MESSAGE
-      </button>
     </div>
 
-    <!-- Navigation Grid (your original cards) -->
+    <!-- Navigation Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
       <!-- Known Issues -->
       <a href="issues.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
@@ -119,7 +119,9 @@
       </a>
 
       <!-- Patch Notes -->
-      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" target="_blank" class="nav-card rounded-3xl group">
+      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" 
+         target="_blank" 
+         class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -182,7 +184,8 @@
       </a>
 
       <!-- Resources -->
-      <a href="#" onclick="alert('Resources page coming soon!')" class="nav-card rounded-3xl group">
+      <a href="#" onclick="alert('Resources page coming soon!')" 
+         class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -195,6 +198,7 @@
           </div>
         </div>
       </a>
+
     </div>
 
     <!-- Footer -->
@@ -203,26 +207,13 @@
     </footer>
   </div>
 
-  <!-- Major Order Modal -->
-  <div id="major-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-    <div class="bg-zinc-900 border border-red-500 rounded-3xl max-w-2xl w-full mx-4 p-10 max-h-[85vh] overflow-auto">
-      <div class="flex justify-between mb-6">
-        <h3 class="text-3xl font-bold text-red-400">MAJOR ORDER BRIEFING</h3>
-        <button onclick="closeModal()" class="text-4xl text-gray-400 hover:text-white">×</button>
-      </div>
-      <div id="modal-content" class="text-gray-200 leading-relaxed text-lg whitespace-pre-line"></div>
-      <button onclick="closeModal()" class="mt-10 w-full bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-bold">DISMISSED</button>
-    </div>
-  </div>
-
   <script>
-    let currentBriefing = "";
-
     async function fetchMajorOrder() {
-      const titleEl = document.getElementById('major-order-title');
-      const descEl = document.getElementById('major-order-desc');
-      const progressBar = document.getElementById('major-progress-bar');
-      const progressText = document.getElementById('major-progress-text');
+      const briefingEl = document.getElementById('briefing-text');
+      const progressContainer = document.getElementById('progress-info');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const lastUpdated = document.getElementById('last-updated');
 
       try {
         const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders');
@@ -230,38 +221,31 @@
 
         if (data && data.length > 0) {
           const mo = data[0];
-          currentBriefing = mo.briefing || mo.description || "Stand by for orders from Super Earth High Command.";
+          briefingEl.innerHTML = mo.briefing || mo.description || "No briefing available at this time.";
 
-          titleEl.textContent = mo.title || "Defend Liberty";
-          descEl.textContent = currentBriefing.substring(0, 180) + (currentBriefing.length > 180 ? "..." : "");
+          if (mo.progress && mo.goal) {
+            const percentage = Math.min(Math.round((mo.progress / mo.goal) * 100), 100);
+            progressBar.style.width = percentage + '%';
+            progressText.textContent = `${mo.progress.toLocaleString()} / ${mo.goal.toLocaleString()} (${percentage}%) complete`;
+            progressContainer.classList.remove('hidden');
+          } else {
+            progressContainer.classList.add('hidden');
+          }
 
-          const progress = mo.progress || 45;
-          progressBar.style.width = `${Math.min(progress, 100)}%`;
-          progressText.textContent = `${progress}% COMPLETE`;
+          lastUpdated.textContent = `Updated just now`;
         } else {
-          throw new Error("No major order");
+          briefingEl.textContent = "Super Earth High Command has not issued a new Major Order at this time.";
         }
       } catch (e) {
-        console.error(e);
-        titleEl.textContent = "Awaiting New Orders";
-        descEl.textContent = "Super Earth High Command has not issued a new Major Order yet.";
-        progressBar.style.width = "0%";
+        briefingEl.textContent = "Unable to fetch Major Order briefing right now.";
       }
     }
 
-    function showMajorOrderModal() {
-      const modal = document.getElementById('major-modal');
-      const content = document.getElementById('modal-content');
-      content.textContent = currentBriefing || "No detailed briefing available at this time.";
-      modal.classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('major-modal').classList.add('hidden');
-    }
-
-    // Initialize everything
+    // Load immediately
     fetchMajorOrder();
+
+    // Auto refresh every 60 seconds
+    setInterval(fetchMajorOrder, 60000);
   </script>
 </body>
 </html>
