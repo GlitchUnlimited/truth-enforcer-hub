@@ -11,7 +11,6 @@
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
       font-family: system-ui, sans-serif;
     }
-
     .nav-card {
       position: relative;
       overflow: hidden;
@@ -19,13 +18,11 @@
       background: #111111;
       border: 2px solid #3f3f46;
     }
-
     .nav-card:hover {
       transform: translateY(-12px) scale(1.03);
       border-color: #00bfff;
       box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
     }
-
     .card-image {
       position: relative;
       height: 180px;
@@ -33,7 +30,6 @@
       background-position: center;
       overflow: hidden;
     }
-
     .card-image::after {
       content: '';
       position: absolute;
@@ -46,16 +42,13 @@
       transition: all 0.7s ease;
       opacity: 0;
     }
-
     .nav-card:hover .card-image::after {
       top: -50%;
       left: -50%;
       opacity: 1;
     }
-
     .sky-blue { color: #00bfff; }
     .glow-blue { text-shadow: 0 0 25px rgb(0 191 255); }
-
     .blue-banner {
       background: linear-gradient(90deg, #0a2540, #003366);
       border: 2px solid #00bfff;
@@ -80,9 +73,35 @@
       </p>
     </div>
 
-    <!-- Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Major Order Section -->
+    <div id="major-order-box" class="bg-red-600 rounded-3xl p-8 mb-12 border-4 border-red-500">
+      <div class="flex justify-between items-start mb-6">
+        <span class="text-4xl font-black">MAJOR ORDER</span>
+        <span id="major-order-time" class="text-sm bg-red-700 px-4 py-1 rounded-xl"></span>
+      </div>
 
+      <h3 id="major-order-title" class="text-2xl font-bold mb-4">Loading current Major Order...</h3>
+      <p id="major-order-desc" class="text-red-100 text-sm leading-relaxed mb-8"></p>
+
+      <div class="mt-6">
+        <div class="text-xs text-red-200 mb-2">PROGRESS</div>
+        <div class="h-3 bg-red-900 rounded-full overflow-hidden">
+          <div id="major-progress-bar" class="h-full bg-yellow-400 w-0 transition-all duration-1000"></div>
+        </div>
+        <div class="flex justify-between text-xs mt-1 text-red-200">
+          <span id="major-progress-text">0%</span>
+          <span id="major-goal-text"></span>
+        </div>
+      </div>
+
+      <button onclick="showMajorOrderModal()" 
+              class="mt-8 w-full bg-yellow-400 hover:bg-yellow-300 transition-colors text-black font-bold py-4 rounded-2xl text-lg">
+        VIEW MESSAGE
+      </button>
+    </div>
+
+    <!-- Navigation Grid (your original cards) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Known Issues -->
       <a href="issues.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
@@ -100,9 +119,7 @@
       </a>
 
       <!-- Patch Notes -->
-      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" 
-         target="_blank" 
-         class="nav-card rounded-3xl group">
+      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" target="_blank" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -149,7 +166,7 @@
         </div>
       </a>
 
-      <!-- Recent Videos (was Roadmap) -->
+      <!-- Recent Videos -->
       <a href="videos.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/133/800/400');"></div>
         <div class="p-10">
@@ -165,8 +182,7 @@
       </a>
 
       <!-- Resources -->
-      <a href="#" onclick="alert('Resources page coming soon!')" 
-         class="nav-card rounded-3xl group">
+      <a href="#" onclick="alert('Resources page coming soon!')" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -179,7 +195,6 @@
           </div>
         </div>
       </a>
-
     </div>
 
     <!-- Footer -->
@@ -187,5 +202,66 @@
       <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
     </footer>
   </div>
+
+  <!-- Major Order Modal -->
+  <div id="major-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+    <div class="bg-zinc-900 border border-red-500 rounded-3xl max-w-2xl w-full mx-4 p-10 max-h-[85vh] overflow-auto">
+      <div class="flex justify-between mb-6">
+        <h3 class="text-3xl font-bold text-red-400">MAJOR ORDER BRIEFING</h3>
+        <button onclick="closeModal()" class="text-4xl text-gray-400 hover:text-white">×</button>
+      </div>
+      <div id="modal-content" class="text-gray-200 leading-relaxed text-lg whitespace-pre-line"></div>
+      <button onclick="closeModal()" class="mt-10 w-full bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-bold">DISMISSED</button>
+    </div>
+  </div>
+
+  <script>
+    let currentBriefing = "";
+
+    async function fetchMajorOrder() {
+      const titleEl = document.getElementById('major-order-title');
+      const descEl = document.getElementById('major-order-desc');
+      const progressBar = document.getElementById('major-progress-bar');
+      const progressText = document.getElementById('major-progress-text');
+
+      try {
+        const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders');
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+          const mo = data[0];
+          currentBriefing = mo.briefing || mo.description || "Stand by for orders from Super Earth High Command.";
+
+          titleEl.textContent = mo.title || "Defend Liberty";
+          descEl.textContent = currentBriefing.substring(0, 180) + (currentBriefing.length > 180 ? "..." : "");
+
+          const progress = mo.progress || 45;
+          progressBar.style.width = `${Math.min(progress, 100)}%`;
+          progressText.textContent = `${progress}% COMPLETE`;
+        } else {
+          throw new Error("No major order");
+        }
+      } catch (e) {
+        console.error(e);
+        titleEl.textContent = "Awaiting New Orders";
+        descEl.textContent = "Super Earth High Command has not issued a new Major Order yet.";
+        progressBar.style.width = "0%";
+      }
+    }
+
+    function showMajorOrderModal() {
+      const modal = document.getElementById('major-modal');
+      const content = document.getElementById('modal-content');
+      content.textContent = currentBriefing || "No detailed briefing available at this time.";
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('major-modal').classList.add('hidden');
+    }
+
+    // Initialize everything
+    fetchMajorOrder();
+  </script>
 </body>
 </html>
