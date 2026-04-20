@@ -57,10 +57,6 @@
       margin-bottom: 50px;
       text-align: center;
     }
-    .mo-box {
-      background: linear-gradient(135deg, #1a2533, #0f172a);
-      border: 2px solid #00bfff;
-    }
   </style>
 </head>
 <body class="text-white min-h-screen">
@@ -77,151 +73,87 @@
       </p>
     </div>
 
-    <!-- Major Order Briefing -->
-    <div class="mo-box rounded-3xl p-8 mb-12">
+    <!-- Major Order Briefing (keep this) -->
+    <div class="bg-zinc-900 border border-sky-600 rounded-3xl p-8 mb-12">
       <div class="flex items-center gap-3 mb-5">
         <i class="fas fa-scroll text-3xl sky-blue"></i>
         <h2 class="text-3xl font-bold">Major Order Briefing</h2>
       </div>
-      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[140px] whitespace-pre-wrap">
-        Contacting Super Earth High Command...
+      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[120px]">
+        Loading briefing from Super Earth High Command...
       </div>
-      <div id="last-updated" class="text-xs text-gray-500 mt-4"></div>
+      <div id="last-updated" class="text-xs text-gray-500 mt-6"></div>
     </div>
 
-    <!-- Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- New Compact Navigation Grid (4 boxes) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-      <a href="issues.html" class="nav-card rounded-3xl group">
+      <!-- Combined Issues & Changes -->
+      <a href="issues.html" class="nav-card rounded-3xl group lg:col-span-1">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
-        <div class="p-10">
+        <div class="p-8">
           <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-bug text-6xl sky-blue"></i>
-            <span class="px-5 py-2 bg-sky-950 text-sky-400 text-xs font-bold uppercase tracking-widest rounded-2xl">OFFICIAL</span>
+            <i class="fas fa-tools text-5xl sky-blue"></i>
           </div>
-          <h2 class="text-4xl font-bold mb-3">Known Issues</h2>
-          <p class="text-gray-400 text-lg">Confirmed bugs from Arrowhead. Updated regularly.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            ENTER THE BUG TRACKER <i class="fas fa-arrow-right"></i>
+          <h2 class="text-3xl font-bold mb-3">Issues & Changes</h2>
+          <p class="text-gray-400">Known Issues • Patch Notes • Undocumented Changes</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            VIEW ALL UPDATES <i class="fas fa-arrow-right"></i>
           </div>
         </div>
       </a>
 
-      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" target="_blank" class="nav-card rounded-3xl group">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
-        <div class="p-10">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-newspaper text-6xl sky-blue"></i>
-            <span class="px-5 py-2 bg-emerald-950 text-emerald-400 text-xs font-bold uppercase tracking-widest rounded-2xl">LATEST</span>
-          </div>
-          <h2 class="text-4xl font-bold mb-3">Patch Notes</h2>
-          <p class="text-gray-400 text-lg">Read the official changes from Arrowhead.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            VIEW OFFICIAL PATCHES <i class="fas fa-external-link-alt"></i>
-          </div>
-        </div>
-      </a>
-
-      <a href="undocumented.html" class="nav-card rounded-3xl group">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/870/800/400');"></div>
-        <div class="p-10">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-eye-slash text-6xl sky-blue"></i>
-            <span class="px-5 py-2 bg-amber-950 text-amber-400 text-xs font-bold uppercase tracking-widest rounded-2xl">STEALTH</span>
-          </div>
-          <h2 class="text-4xl font-bold mb-3">Undocumented Changes</h2>
-          <p class="text-gray-400 text-lg">Community-discovered stealth buffs, nerfs & hidden tweaks.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            REVEAL THE TRUTH <i class="fas fa-arrow-right"></i>
-          </div>
-        </div>
-      </a>
-
+      <!-- Community Reports -->
       <a href="community.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/1016/800/400');"></div>
-        <div class="p-10">
+        <div class="p-8">
           <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-users text-6xl sky-blue"></i>
-            <span class="px-5 py-2 bg-violet-950 text-violet-400 text-xs font-bold uppercase tracking-widest rounded-2xl">COMMUNITY</span>
+            <i class="fas fa-users text-5xl sky-blue"></i>
           </div>
-          <h2 class="text-4xl font-bold mb-3">Community Reports</h2>
-          <p class="text-gray-400 text-lg">Player-submitted videos and bug clips from Discord.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            WATCH COMMUNITY CLIPS <i class="fas fa-arrow-right"></i>
+          <h2 class="text-3xl font-bold mb-3">Community Reports</h2>
+          <p class="text-gray-400">Player videos, clips & bug reports</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            SEE COMMUNITY <i class="fas fa-arrow-right"></i>
           </div>
         </div>
       </a>
 
+      <!-- Recent Videos -->
       <a href="videos.html" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/133/800/400');"></div>
-        <div class="p-10">
+        <div class="p-8">
           <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-video text-6xl sky-blue"></i>
+            <i class="fas fa-video text-5xl sky-blue"></i>
           </div>
-          <h2 class="text-4xl font-bold mb-3">Recent Videos</h2>
-          <p class="text-gray-400 text-lg">Latest Helldivers 2 videos from GlitchUnlimited YouTube channel.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            WATCH ON YOUTUBE <i class="fas fa-arrow-right"></i>
+          <h2 class="text-3xl font-bold mb-3">Recent Videos</h2>
+          <p class="text-gray-400">Latest Helldivers 2 content</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+            WATCH NOW <i class="fas fa-arrow-right"></i>
           </div>
         </div>
       </a>
 
+      <!-- Resources -->
       <a href="#" onclick="alert('Resources page coming soon!')" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
-        <div class="p-10">
+        <div class="p-8">
           <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-book text-6xl sky-blue"></i>
+            <i class="fas fa-book text-5xl sky-blue"></i>
           </div>
-          <h2 class="text-4xl font-bold mb-3">Resources</h2>
-          <p class="text-gray-400 text-lg">Useful links, tools, and wikis for Helldivers.</p>
-          <div class="mt-10 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
+          <h2 class="text-3xl font-bold mb-3">Resources</h2>
+          <p class="text-gray-400">Tools, wikis & useful links</p>
+          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
             ARMORY ACCESS <i class="fas fa-arrow-right"></i>
           </div>
         </div>
       </a>
+
     </div>
 
+    <!-- Footer -->
     <footer class="mt-24 text-center text-gray-500 text-sm">
       <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
     </footer>
   </div>
-
-  <script>
-    async function fetchMajorOrderBriefing() {
-      const briefingEl = document.getElementById('briefing-text');
-      const lastUpdatedEl = document.getElementById('last-updated');
-
-      briefingEl.textContent = "Contacting Super Earth High Command...";
-
-      try {
-        // Using allorigins proxy to bypass CORS
-        const proxyUrl = 'https://api.allorigins.win/get?url=' + 
-          encodeURIComponent('https://helldiverstrainingmanual.com/api/v1/war/major-orders');
-
-        const res = await fetch(proxyUrl);
-        const proxyData = await res.json();
-        const data = JSON.parse(proxyData.contents);
-
-        if (data && data.length > 0) {
-          const mo = data[0];
-          const briefing = mo.briefing || mo.description || mo.title || "Major Order is active.";
-          
-          briefingEl.textContent = briefing;
-          lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-        } else {
-          briefingEl.textContent = "No active Major Order at this time.";
-        }
-      } catch (err) {
-        console.error(err);
-        briefingEl.textContent = "Temporarily unable to load briefing.\nWill retry automatically.";
-      }
-    }
-
-    // Initial load
-    fetchMajorOrderBriefing();
-
-    // Auto refresh every 40 seconds
-    setInterval(fetchMajorOrderBriefing, 40000);
-  </script>
 </body>
 </html>
