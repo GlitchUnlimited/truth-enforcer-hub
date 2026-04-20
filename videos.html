@@ -12,160 +12,177 @@
       font-family: system-ui, sans-serif;
     }
 
-    .nav-card {
-      position: relative;
-      overflow: hidden;
+    .video-card {
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       background: #111111;
       border: 2px solid #3f3f46;
     }
 
-    .nav-card:hover {
-      transform: translateY(-8px);
+    .video-card:hover {
+      transform: translateY(-12px);
       border-color: #00bfff;
       box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
     }
 
-    .video-thumbnail {
+    .thumbnail-container {
       position: relative;
-      height: 200px;
-      background-size: cover;
-      background-position: center;
       overflow: hidden;
     }
 
-    .video-thumbnail::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    .thumbnail {
+      transition: transform 0.5s ease;
     }
 
-    .play-icon {
+    .video-card:hover .thumbnail {
+      transform: scale(1.08);
+    }
+
+    .play-overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3.5rem;
-      color: #00bfff;
-      text-shadow: 0 0 20px rgba(0,191,255,0.8);
-      z-index: 10;
+      inset: 0;
+      background: rgba(0, 191, 255, 0.15);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-card:hover .play-overlay {
+      opacity: 1;
     }
 
     .sky-blue { color: #00bfff; }
-    .glow-blue { text-shadow: 0 0 25px rgb(0 191 255); }
-
-    .blue-banner {
-      background: linear-gradient(90deg, #0a2540, #003366);
-      border: 2px solid #00bfff;
-      border-radius: 16px;
-      padding: 28px 40px;
-      margin-bottom: 50px;
-      text-align: center;
-    }
   </style>
 </head>
-<body class="text-white min-h-screen pb-12">
+<body class="text-white min-h-screen pb-20">
   <div class="max-w-7xl mx-auto p-8">
 
-    <!-- Blue Banner -->
-    <div class="blue-banner">
-      <div class="flex items-center justify-center gap-4 text-4xl font-black">
-        <i class="fas fa-skull-crossbones sky-blue"></i>
-        <span class="glow-blue">HD2 HUB</span>
-      </div>
-      <p class="text-sky-300 mt-3 text-xl">
-        Super Earth Intelligence Division • Recent Videos
-      </p>
-    </div>
-
     <!-- Back Button -->
-    <a href="index.html" class="inline-flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-10 text-lg">
+    <a href="index.html" class="inline-flex items-center gap-3 text-sky-400 hover:text-sky-300 mb-8 text-lg">
       ← Back to HD2 Hub
     </a>
 
-    <h1 class="text-5xl font-bold mb-2 flex items-center gap-4">
-      <i class="fas fa-video sky-blue"></i>
-      Recent Videos
-    </h1>
-    <p class="text-gray-400 text-xl mb-12">Latest Helldivers 2 content from the GlitchUnlimited channel</p>
-
-    <!-- Videos Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="videos-container">
-      <!-- Videos will be loaded by JavaScript -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <h1 class="text-5xl font-bold flex items-center gap-4">
+          <i class="fas fa-video sky-blue"></i>
+          Recent Videos
+        </h1>
+        <p class="text-gray-400 text-xl mt-3">
+          Latest Helldivers 2 content from 
+          <a href="https://www.youtube.com/@GlitchUnlimited" target="_blank" class="hover:text-sky-400 underline">@GlitchUnlimited</a>
+        </p>
+      </div>
+      
+      <a href="https://www.youtube.com/@GlitchUnlimited" 
+         target="_blank"
+         class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl font-semibold text-lg transition-all">
+        <i class="fab fa-youtube text-2xl"></i>
+        Visit Full Channel
+      </a>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-20 text-center text-gray-500 text-sm">
-      <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
-      <p class="mt-4">
-        <a href="index.html" class="hover:text-sky-400 underline">Return to Home</a>
-      </p>
-    </footer>
+    <!-- Video Grid -->
+    <div id="video-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <!-- Videos loaded here -->
+    </div>
+
+    <!-- Load More -->
+    <div class="flex justify-center mt-16">
+      <button id="load-more-btn"
+              class="px-10 py-4 bg-sky-600 hover:bg-sky-500 transition-colors rounded-2xl font-semibold text-lg flex items-center gap-3">
+        <i class="fas fa-plus"></i>
+        Load More Videos
+      </button>
+    </div>
+
+    <div id="loading" class="hidden text-center text-gray-400 mt-8">
+      Loading more videos...
+    </div>
+
   </div>
 
   <script>
-    const videos = [
-      {
-        title: "Helldivers 2 - Patch 1.004.1 Breakdown & New Changes",
-        date: "April 18, 2026",
-        duration: "12:45",
-        thumbnail: "https://picsum.photos/id/133/800/450",
-        link: "https://youtube.com/watch?v=example1"
-      },
-      {
-        title: "Why the New Warbond is Actually Good - Honest Review",
-        date: "April 15, 2026",
-        duration: "18:22",
-        thumbnail: "https://picsum.photos/id/201/800/450",
-        link: "https://youtube.com/watch?v=example2"
-      },
-      {
-        title: "Hidden Mechanics You’re Probably Missing in 2026",
-        date: "April 12, 2026",
-        duration: "14:10",
-        thumbnail: "https://picsum.photos/id/870/800/450",
-        link: "https://youtube.com/watch?v=example3"
-      },
-      {
-        title: "Super Earth Intelligence - Weekly Community Report",
-        date: "April 10, 2026",
-        duration: "25:33",
-        thumbnail: "https://picsum.photos/id/1015/800/450",
-        link: "https://youtube.com/watch?v=example4"
+    let allVideos = [];
+    let displayedCount = 0;
+    const videosPerLoad = 8;
+
+    async function loadYouTubeVideos() {
+      const container = document.getElementById('video-grid');
+      container.innerHTML = `<p class="col-span-full text-center py-20 text-gray-400">Loading latest videos from @GlitchUnlimited...</p>`;
+
+      try {
+        const channelID = "UCcnkqkNWjiwLcDUx0WshOmg"; // GlitchUnlimited Channel ID
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (!data.items || data.items.length === 0) {
+          container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20">Could not load videos right now.</p>`;
+          return;
+        }
+
+        allVideos = data.items;
+        displayedCount = 0;
+        renderVideos();
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20">Failed to load videos.<br>Please check your connection.</p>`;
       }
-      // Add more videos here easily
-    ];
-
-    function renderVideos() {
-      const container = document.getElementById('videos-container');
-      container.innerHTML = '';
-
-      videos.forEach(video => {
-        const card = document.createElement('a');
-        card.href = video.link;
-        card.target = "_blank";
-        card.className = "nav-card rounded-3xl group block";
-        card.innerHTML = `
-          <div class="video-thumbnail relative" style="background-image: url('${video.thumbnail}');">
-            <i class="fas fa-play-circle play-icon"></i>
-            <div class="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded font-mono">
-              ${video.duration}
-            </div>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-semibold leading-tight mb-3 group-hover:text-sky-400 transition-colors">
-              ${video.title}
-            </h3>
-            <p class="text-gray-400 text-sm">${video.date}</p>
-          </div>
-        `;
-        container.appendChild(card);
-      });
     }
 
-    // Initialize
-    renderVideos();
+    function renderVideos() {
+      const container = document.getElementById('video-grid');
+      const nextBatch = allVideos.slice(displayedCount, displayedCount + videosPerLoad);
+
+      nextBatch.forEach(item => {
+        const videoId = item.link.split('v=')[1] || item.link.split('/').pop();
+
+        const card = document.createElement('div');
+        card.className = `video-card rounded-3xl overflow-hidden cursor-pointer`;
+        card.innerHTML = `
+          <div class="thumbnail-container relative">
+            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" 
+                 class="thumbnail w-full aspect-video object-cover" 
+                 alt="${item.title}">
+            <div class="play-overlay">
+              <i class="fas fa-play-circle text-6xl text-white drop-shadow-lg"></i>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-[17px] leading-tight line-clamp-2 mb-4">${item.title}</h3>
+            <p class="text-xs text-gray-500">
+              ${new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </p>
+          </div>
+        `;
+
+        card.addEventListener('click', () => window.open(item.link, '_blank'));
+        container.appendChild(card);
+      });
+
+      displayedCount += nextBatch.length;
+
+      if (displayedCount >= allVideos.length) {
+        document.getElementById('load-more-btn').style.display = 'none';
+      }
+    }
+
+    // Load More Button
+    document.getElementById('load-more-btn').addEventListener('click', () => {
+      document.getElementById('loading').classList.remove('hidden');
+      setTimeout(() => {
+        renderVideos();
+        document.getElementById('loading').classList.add('hidden');
+      }, 500);
+    });
+
+    // Start loading videos
+    loadYouTubeVideos();
   </script>
 </body>
 </html>
