@@ -1,159 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HD2 Hub • Super Earth Intelligence</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-      font-family: system-ui, sans-serif;
-    }
-    .nav-card {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      background: #111111;
-      border: 2px solid #3f3f46;
-    }
-    .nav-card:hover {
-      transform: translateY(-12px) scale(1.03);
-      border-color: #00bfff;
-      box-shadow: 0 25px 50px -12px rgb(0 191 255 / 0.5);
-    }
-    .card-image {
-      position: relative;
-      height: 180px;
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-    }
-    .card-image::after {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 50%;
-      height: 300%;
-      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
-      transform: skewX(-25deg);
-      transition: all 0.7s ease;
-      opacity: 0;
-    }
-    .nav-card:hover .card-image::after {
-      top: -50%;
-      left: -50%;
-      opacity: 1;
-    }
-    .sky-blue { color: #00bfff; }
-    .glow-blue { text-shadow: 0 0 25px rgb(0 191 255); }
-    .blue-banner {
-      background: linear-gradient(90deg, #0a2540, #003366);
-      border: 2px solid #00bfff;
-      border-radius: 16px;
-      padding: 28px 40px;
-      margin-bottom: 50px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUTH ENFORCER | Super Earth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+        
+        :root {
+            --tw-color-amber-glow: #facc15;
+        }
+        
+        * {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1f1f1f 100%);
+        }
+        
+        .header-glow {
+            text-shadow: 0 0 20px rgb(250 204 21), 0 0 40px rgb(250 204 21);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: #facc15;
+            text-shadow: 0 0 15px #facc15;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #facc15;
+            box-shadow: 0 0 12px #facc15;
+        }
+        
+        .main-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+        }
+        
+        .main-card:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 
+                0 0 0 6px #ffffff,
+                0 0 35px 12px rgba(255, 255, 255, 0.65),
+                0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 300%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+            transform: skewX(-25deg);
+            opacity: 0;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.7s ease-out;
+        }
+        
+        .main-card:hover::before {
+            animation: shine 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+            15% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { transform: translateX(300%) skewX(-25deg); opacity: 0; }
+        }
+        
+        .card-accent-red { border: 4px solid #ef4444; }
+        .card-accent-yellow { border: 4px solid #facc15; }
+        .card-accent-orange { border: 4px solid #f97316; }
+        .card-accent-cyan { border: 4px solid #22d3ee; }
+        
+        .card-inner { transition: all 0.3s ease; }
+        .main-card:hover .card-inner { filter: brightness(1.15) contrast(1.1); }
+        
+        .latest-card {
+            transition: all 0.3s ease;
+        }
+        
+        .latest-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px -4px #ffffff;
+        }
+        
+        /* HERO SLIDER */
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 4px solid #ffffff20;
+            box-shadow: 0 10px 30px -10px rgba(255,255,255,0.3);
+        }
+        
+        .slides-wrapper {
+            display: flex;
+            transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .slide img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 5;
+            object-fit: cover;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+        }
+        
+        .arrow-btn, .pause-play-btn {
+            width: 48px;
+            height: 48px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            border: 2px solid #ffffff40;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+        
+        .arrow-btn:hover, .pause-play-btn:hover {
+            background: #ffffff;
+            color: #111;
+            transform: scale(1.1);
+        }
+        
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #ffffff30;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background: #facc15;
+            width: 28px;
+            border-radius: 9999px;
+        }
+        
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(250, 204, 21, 0.03) 3px, rgba(250, 204, 21, 0.03) 6px);
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 8s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+    </style>
 </head>
-<body class="text-white min-h-screen">
-  <div class="max-w-7xl mx-auto p-8">
+<body class="min-h-screen text-white overflow-x-hidden">
+    <!-- HEADER -->
+    <header class="relative z-50 border-b border-amber-300/30 bg-black/70 backdrop-blur-md">
+        <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <h1 class="header-glow text-6xl font-black tracking-[4px] text-amber-300">TRUTH ENFORCER</h1>
+            </div>
 
-    <!-- Blue Banner -->
-    <div class="blue-banner">
-      <div class="flex items-center justify-center gap-4 text-4xl font-black">
-        <i class="fas fa-skull-crossbones sky-blue"></i>
-        <span class="glow-blue">HD2 HUB</span>
-      </div>
-      <p class="text-sky-300 mt-3 text-xl">
-        Super Earth Intelligence Division • Real-time Helldivers 2 Tracker
-      </p>
-    </div>
+            <div class="flex flex-col items-center -mt-2">
+                <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 200 200" fill="none" class="drop-shadow-[0_0_25px_#facc15]">
+                        <path d="M60 45 L80 25 L100 35 L120 25 L140 45" stroke="#facc15" stroke-width="18" stroke-linejoin="round"/>
+                        <path d="M65 48 L80 35 L100 40 L120 35 L135 48" fill="#facc15"/>
+                        <ellipse cx="100" cy="105" rx="48" ry="55" fill="#111" stroke="#facc15" stroke-width="22"/>
+                        <circle cx="68" cy="92" r="12" fill="#facc15"/>
+                        <circle cx="132" cy="92" r="12" fill="#facc15"/>
+                        <path d="M100 105 L92 125 L108 125 Z" fill="#facc15"/>
+                        <path d="M65 135 Q100 160 135 135" fill="none" stroke="#facc15" stroke-width="18"/>
+                    </svg>
+                </div>
+                <span class="text-amber-300 text-xl font-black tracking-[6px] mt-1">SUPER EARTH</span>
+            </div>
 
-    <!-- Major Order Briefing (keep this) -->
-    <div class="bg-zinc-900 border border-sky-600 rounded-3xl p-8 mb-12">
-      <div class="flex items-center gap-3 mb-5">
-        <i class="fas fa-scroll text-3xl sky-blue"></i>
-        <h2 class="text-3xl font-bold">Major Order Briefing</h2>
-      </div>
-      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[120px]">
-        Loading briefing from Super Earth High Command...
-      </div>
-      <div id="last-updated" class="text-xs text-gray-500 mt-6"></div>
-    </div>
-
-    <!-- New Compact Navigation Grid (4 boxes) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-      <!-- Combined Issues & Changes -->
-      <a href="issues.html" class="nav-card rounded-3xl group lg:col-span-1">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/1015/800/400');"></div>
-        <div class="p-8">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-tools text-5xl sky-blue"></i>
-          </div>
-          <h2 class="text-3xl font-bold mb-3">Issues & Changes</h2>
-          <p class="text-gray-400">Known Issues • Patch Notes • Undocumented Changes</p>
-          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            VIEW ALL UPDATES <i class="fas fa-arrow-right"></i>
-          </div>
+            <nav class="flex items-center gap-x-8 text-lg font-semibold">
+                <a href="#" class="nav-link active text-amber-300">OVERVIEW</a>
+                <a href="#" class="nav-link">NEWS</a>
+                <a href="#" class="nav-link">DATABASE</a>
+                <a href="#" class="nav-link">COMMUNITY</a>
+                <a href="#" class="nav-link">STORE</a>
+                <div class="w-9 h-9 bg-zinc-800 hover:bg-amber-300 hover:text-black rounded-2xl flex items-center justify-center text-2xl transition-all cursor-pointer border border-amber-300/50 hover:border-amber-300">👤</div>
+            </nav>
         </div>
-      </a>
+    </header>
 
-      <!-- Community Reports -->
-      <a href="community.html" class="nav-card rounded-3xl group">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/1016/800/400');"></div>
-        <div class="p-8">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-users text-5xl sky-blue"></i>
-          </div>
-          <h2 class="text-3xl font-bold mb-3">Community Reports</h2>
-          <p class="text-gray-400">Player videos, clips & bug reports</p>
-          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            SEE COMMUNITY <i class="fas fa-arrow-right"></i>
-          </div>
+    <main class="relative z-10 max-w-screen-2xl mx-auto px-8 pt-8 pb-16">
+        
+        <!-- HERO SLIDER -->
+        <div class="hero-slider mb-12 bg-zinc-950">
+            <div id="slides-wrapper" class="slides-wrapper">
+                <!-- SLIDE 1 -->
+                <div class="slide">
+                    <a href="https://example.com/slide1" target="_blank" id="slide-link-1">
+                        <img id="slide-img-1" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+1+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 1">
+                    </a>
+                </div>
+                <!-- SLIDE 2 -->
+                <div class="slide">
+                    <a href="https://example.com/slide2" target="_blank" id="slide-link-2">
+                        <img id="slide-img-2" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+2+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 2">
+                    </a>
+                </div>
+                <!-- SLIDE 3 -->
+                <div class="slide">
+                    <a href="https://example.com/slide3" target="_blank" id="slide-link-3">
+                        <img id="slide-img-3" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+3+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 3">
+                    </a>
+                </div>
+                <!-- SLIDE 4 -->
+                <div class="slide">
+                    <a href="https://example.com/slide4" target="_blank" id="slide-link-4">
+                        <img id="slide-img-4" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+4+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 4">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="slider-controls">
+                <button onclick="prevSlide()" class="arrow-btn">‹</button>
+                <button onclick="togglePause()" id="pause-play-btn" class="pause-play-btn">⏸️</button>
+                <button onclick="nextSlide()" class="arrow-btn">›</button>
+                <div id="slider-dots" class="dots"></div>
+            </div>
         </div>
-      </a>
 
-      <!-- Recent Videos -->
-      <a href="videos.html" class="nav-card rounded-3xl group">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/133/800/400');"></div>
-        <div class="p-8">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-video text-5xl sky-blue"></i>
-          </div>
-          <h2 class="text-3xl font-bold mb-3">Recent Videos</h2>
-          <p class="text-gray-400">Latest Helldivers 2 content</p>
-          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            WATCH NOW <i class="fas fa-arrow-right"></i>
-          </div>
+        <!-- MAIN CARDS GRID -->
+        <div class="grid grid-cols-4 gap-6">
+            <!-- CARD 1: Issues & Changes -->
+            <div class="main-card card-accent-red bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-red-600 to-rose-500 text-white font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">🔧</span> Issues &amp; Changes</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box1" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+ISSUES+%26+CHANGES+BOX+IMAGE" alt="Issues &amp; Changes Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Known Issues • Patch Notes •<br>Undocumented Changes</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">VIEW ALL UPDATES <span class="text-lg leading-none">→</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: Community Reports (yellow) -->
+            <div class="main-card card-accent-yellow bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-amber-400 to-yellow-300 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">👥</span> Community Reports</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box2" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+COMMUNITY+REPORTS+BOX+IMAGE" alt="Community Reports Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Player videos, clips &amp; bug reports</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">SEE COMMUNITY <span class="text-lg leading-none">→</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: Recent Videos -->
+            <div class="main-card card-accent-orange bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-500 to-amber-400 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">📹</span> Recent Videos</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box3" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+RECENT+VIDEOS+BOX+IMAGE" alt="Recent Videos Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-black/70 backdrop-blur-sm rounded-3xl flex items-center justify-center text-5xl border-2 border-orange-300">▶️</div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Latest Helldivers 2 content</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">WATCH NOW <span class="text-lg leading-none">→</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4: Resources -->
+            <div class="main-card card-accent-cyan bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-cyan-400 to-blue-400 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">📋</span> Resources</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box4" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+RESOURCES+BOX+IMAGE" alt="Resources Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Tools, wikis &amp; useful links</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">ARMORY ACCESS <span class="text-lg leading-none">→</span></a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </a>
 
-      <!-- Resources -->
-      <a href="#" onclick="alert('Resources page coming soon!')" class="nav-card rounded-3xl group">
-        <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
-        <div class="p-8">
-          <div class="flex justify-between items-start mb-6">
-            <i class="fas fa-book text-5xl sky-blue"></i>
-          </div>
-          <h2 class="text-3xl font-bold mb-3">Resources</h2>
-          <p class="text-gray-400">Tools, wikis & useful links</p>
-          <div class="mt-8 text-sky-400 font-medium flex items-center gap-2 group-hover:gap-4 transition-all">
-            ARMORY ACCESS <i class="fas fa-arrow-right"></i>
-          </div>
+        <!-- LATEST INTELLIGENCE SECTION -->
+        <div class="mt-16">
+            <h2 class="text-amber-300 text-3xl font-black tracking-[3px] mb-6 flex items-center gap-x-4">
+                LATEST INTELLIGENCE
+                <div class="flex-1 h-px bg-gradient-to-r from-amber-300/30 to-transparent"></div>
+            </h2>
+            
+            <div class="grid grid-cols-4 gap-6">
+                <!-- Latest 1 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest1" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+1" alt="Latest 1" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">SUPREAD EARTH BROADCAST #47</h4>
+                        <p class="text-sm text-amber-300/80">Latest Combat Highlights &amp; Intel</p>
+                        <p class="text-xs text-zinc-400 mt-2">2 days ago</p>
+                    </div>
+                </div>
+                
+                <!-- Latest 2 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest2" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+2" alt="Latest 2" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
+                        <p class="text-sm text-red-300/80">Intel on Swsvent Loadout &amp; Stratagems</p>
+                        <p class="text-xs text-zinc-400 mt-2">7 days ago</p>
+                    </div>
+                </div>
+                
+                <!-- Latest 3 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest3" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+3" alt="Latest 3" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
+                        <p class="text-sm text-amber-300/80">Intel on Swsvent Loadout &amp; Stratagems</p>
+                        <p class="text-xs text-zinc-400 mt-2">7 days ago</p>
+                    </div>
+                </div>
+                
+                <!-- LIVE STREAM -->
+                <div class="latest-card bg-zinc-900 border border-red-500/50 rounded-3xl overflow-hidden cursor-pointer relative">
+                    <div class="relative">
+                        <img id="live" src="https://placehold.co/600x280/111111/ffffff?text=LIVE+STREAM+THUMBNAIL" alt="Live Stream" class="w-full h-40 object-cover">
+                        <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-3xl flex items-center gap-x-1 shadow-[0_0_15px_#ef4444] animate-pulse">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                            LIVE
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg flex items-center gap-x-2">LIVE STREAM <span class="text-red-400 text-sm font-normal">NOW BROADCASTING</span></h4>
+                        <p class="text-sm text-zinc-300">Real-time Helldiver Operations</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </a>
+    </main>
 
-    </div>
-
-    <!-- Footer -->
-    <footer class="mt-24 text-center text-gray-500 text-sm">
-      <p>Fan-made HD2 Hub • Not affiliated with Arrowhead Game Studios or PlayStation</p>
+    <!-- FOOTER -->
+    <footer class="relative z-50 border-t border-amber-300/20 bg-black py-6">
+        <div class="max-w-screen-2xl mx-auto px-8 flex items-center justify-between text-sm">
+            <div class="flex items-center gap-x-3">
+                <div class="w-8 h-8 bg-amber-300 text-black rounded-2xl flex items-center justify-center text-xl">☠️</div>
+                <span class="font-black tracking-widest text-amber-300">SUPER EARTH</span>
+            </div>
+            <div class="text-center text-amber-300/70 text-xs font-medium">
+                DEFEND SUPER EARTH. JOIN THE HELLDIVERS.<br>
+                © 2084 Super Earth Ministry of Truth. All Rights Reserved.
+            </div>
+            <div class="text-amber-300/30 text-xs font-mono">MINISTRY OF TRUTH • TRUTH ENFORCER v1.4</div>
+        </div>
     </footer>
-  </div>
+
+    <div class="scanlines"></div>
+
+    <script>
+        console.log('%c✅ TRUTH ENFORCER UI – FULLY FIXED & READY', 'color:#facc15; font-family:monospace; font-size:13px');
+        
+        // HERO SLIDER
+        let currentSlide = 0;
+        let isPaused = false;
+        let autoInterval = null;
+        const totalSlides = 4;
+        
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const pausePlayBtn = document.getElementById('pause-play-btn');
+        
+        function updateDots() {
+            const dotsContainer = document.getElementById('slider-dots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === currentSlide ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
+        
+        function nextSlide() {
+            let next = (currentSlide + 1) % totalSlides;
+            goToSlide(next);
+            resetAutoSlide();
+        }
+        
+        function prevSlide() {
+            let prev = (currentSlide - 1 + totalSlides) % totalSlides;
+            goToSlide(prev);
+            resetAutoSlide();
+        }
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            pausePlayBtn.textContent = isPaused ? '▶️' : '⏸️';
+            if (isPaused) clearInterval(autoInterval);
+            else startAutoSlide();
+        }
+        
+        function startAutoSlide() {
+            clearInterval(autoInterval);
+            autoInterval = setInterval(() => {
+                if (!isPaused) nextSlide();
+            }, 10000);
+        }
+        
+        function resetAutoSlide() {
+            if (!isPaused) {
+                clearInterval(autoInterval);
+                startAutoSlide();
+            }
+        }
+        
+        function initSlider() {
+            updateDots();
+            startAutoSlide();
+            
+            const slider = document.querySelector('.hero-slider');
+            slider.addEventListener('mouseenter', () => { if (!isPaused) clearInterval(autoInterval); });
+            slider.addEventListener('mouseleave', () => { if (!isPaused) startAutoSlide(); });
+        }
+        
+        window.onload = initSlider;
+    </script>
 </body>
 </html>
