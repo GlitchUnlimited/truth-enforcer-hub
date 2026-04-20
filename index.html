@@ -79,24 +79,14 @@
 
     <!-- Major Order Briefing -->
     <div class="mo-box rounded-3xl p-8 mb-12">
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center gap-3">
-          <i class="fas fa-scroll text-3xl sky-blue"></i>
-          <h2 class="text-3xl font-bold">Major Order Briefing</h2>
-        </div>
-        <div id="last-updated" class="text-xs text-gray-500"></div>
+      <div class="flex items-center gap-3 mb-5">
+        <i class="fas fa-scroll text-3xl sky-blue"></i>
+        <h2 class="text-3xl font-bold">Major Order Briefing</h2>
       </div>
-      
-      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[100px]">
-        Loading briefing from Super Earth High Command...
+      <div id="briefing-text" class="text-gray-200 text-lg leading-relaxed min-h-[120px]">
+        Connecting to Super Earth High Command...
       </div>
-
-      <div id="progress-info" class="mt-6 hidden">
-        <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-          <div id="progress-bar" class="h-full bg-sky-500 w-0 transition-all duration-700"></div>
-        </div>
-        <p id="progress-text" class="text-sm text-sky-400 mt-2"></p>
-      </div>
+      <div id="last-updated" class="text-xs text-gray-500 mt-4"></div>
     </div>
 
     <!-- Navigation Grid -->
@@ -119,9 +109,7 @@
       </a>
 
       <!-- Patch Notes -->
-      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" 
-         target="_blank" 
-         class="nav-card rounded-3xl group">
+      <a href="https://arrowhead.zendesk.com/hc/en-us/categories/12532454295708-Helldivers-2-Patch-notes" target="_blank" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -184,8 +172,7 @@
       </a>
 
       <!-- Resources -->
-      <a href="#" onclick="alert('Resources page coming soon!')" 
-         class="nav-card rounded-3xl group">
+      <a href="#" onclick="alert('Resources page coming soon!')" class="nav-card rounded-3xl group">
         <div class="card-image" style="background-image: url('https://picsum.photos/id/201/800/400');"></div>
         <div class="p-10">
           <div class="flex justify-between items-start mb-6">
@@ -198,7 +185,6 @@
           </div>
         </div>
       </a>
-
     </div>
 
     <!-- Footer -->
@@ -208,44 +194,39 @@
   </div>
 
   <script>
-    async function fetchMajorOrder() {
+    async function fetchMajorOrderBriefing() {
       const briefingEl = document.getElementById('briefing-text');
-      const progressContainer = document.getElementById('progress-info');
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('progress-text');
-      const lastUpdated = document.getElementById('last-updated');
+      const lastUpdatedEl = document.getElementById('last-updated');
+
+      briefingEl.textContent = "Contacting Super Earth High Command...";
 
       try {
-        const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders');
+        const res = await fetch('https://helldiverstrainingmanual.com/api/v1/war/major-orders', {
+          cache: 'no-store'
+        });
+
         const data = await res.json();
 
         if (data && data.length > 0) {
           const mo = data[0];
-          briefingEl.innerHTML = mo.briefing || mo.description || "No briefing available at this time.";
-
-          if (mo.progress && mo.goal) {
-            const percentage = Math.min(Math.round((mo.progress / mo.goal) * 100), 100);
-            progressBar.style.width = percentage + '%';
-            progressText.textContent = `${mo.progress.toLocaleString()} / ${mo.goal.toLocaleString()} (${percentage}%) complete`;
-            progressContainer.classList.remove('hidden');
-          } else {
-            progressContainer.classList.add('hidden');
-          }
-
-          lastUpdated.textContent = `Updated just now`;
+          const briefing = mo.briefing || mo.description || mo.title || "Major Order is active. Details loading...";
+          
+          briefingEl.textContent = briefing;
+          lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
         } else {
-          briefingEl.textContent = "Super Earth High Command has not issued a new Major Order at this time.";
+          briefingEl.textContent = "No active Major Order at this time. Stand by for new orders from High Command.";
         }
-      } catch (e) {
-        briefingEl.textContent = "Unable to fetch Major Order briefing right now.";
+      } catch (error) {
+        console.error(error);
+        briefingEl.textContent = "Unable to reach Super Earth Command right now. The site will try again automatically.";
       }
     }
 
-    // Load immediately
-    fetchMajorOrder();
+    // Initial load
+    fetchMajorOrderBriefing();
 
-    // Auto refresh every 60 seconds
-    setInterval(fetchMajorOrder, 60000);
+    // Auto refresh every 45 seconds
+    setInterval(fetchMajorOrderBriefing, 45000);
   </script>
 </body>
 </html>
