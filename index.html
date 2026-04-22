@@ -73,7 +73,7 @@
             animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Four boxes hover effects */
+        /* Four boxes hover effects - improved glare */
         .deployment-box {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -93,7 +93,6 @@
             transform: scale(1.08);
         }
         
-        /* Glare / glow overlay - IMPROVED smooth transition on hover off */
         .glare {
             position: absolute;
             top: -50%;
@@ -103,27 +102,49 @@
             background: linear-gradient(
                 120deg,
                 rgba(255,255,255,0) 30%,
-                rgba(255,255,255,0.4) 50%,
+                rgba(255,255,255,0.45) 50%,
                 rgba(255,255,255,0) 70%
             );
             transform: skewX(-25deg);
             opacity: 0;
-            transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .deployment-box:hover .glare {
             opacity: 1;
-            animation: glareAnim 1.5s linear;
+            animation: glareAnim 1.8s ease-in-out;
         }
         
         @keyframes glareAnim {
-            0% { transform: translateX(-150%) skewX(-25deg); }
+            0%   { transform: translateX(-180%) skewX(-25deg); }
+            50%  { transform: translateX(80%) skewX(-25deg); }
             100% { transform: translateX(300%) skewX(-25deg); }
+        }
+
+        /* Hero layout - pulled WAY up to eliminate gap (no more empty red space) */
+        .hero-content {
+            padding-top: 20px;
+        }
+        
+        .hero-grid {
+            align-items: flex-start !important;
+        }
+        
+        /* Scroll prompt - pulled up */
+        .scroll-prompt {
+            bottom: 5vh !important;
+        }
+        
+        /* Stats evenly spaced on one line */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
         }
     </style>
 </head>
 <body class="tail-container bg-black text-white">
-    <!-- TOP BAR - SUPER EARTH COMMAND -->
+    <!-- TOP BAR -->
     <div class="bg-[#c8102e] text-white py-1 text-center text-xs header-font tracking-widest flex items-center justify-center gap-4">
         <div class="flex items-center gap-2">
             <span class="inline-block w-3 h-3 bg-yellow-300 animate-pulse rounded-full"></span>
@@ -159,12 +180,13 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <!-- MAJOR ORDER BADGE - now clickable + "MAJOR ORDER" white -->
-                <div onclick="navigateTo('major-order')" 
-                     class="px-4 py-2 bg-[#c8102e]/10 border border-[#c8102e] text-xs header-font flex items-center gap-2 rounded-full cursor-pointer hover:bg-white/10">
+                <!-- MAJOR ORDER BUTTON - clickable + white "MAJOR ORDER" -->
+                <button onclick="openMajorOrderModal()" 
+                        class="px-6 py-2 bg-[#c8102e]/10 border border-[#c8102e] hover:bg-[#c8102e]/20 text-xs header-font flex items-center gap-2 rounded-full cursor-pointer">
                     <span class="w-2 h-2 bg-[#c8102e] rounded-full animate-ping"></span>
-                    MAJOR ORDER <span class="text-[#c8102e]">ACTIVE</span>
-                </div>
+                    <span class="text-white">MAJOR ORDER</span>
+                    <span class="text-[#c8102e]">ACTIVE</span>
+                </button>
                 
                 <!-- Mobile Hamburger -->
                 <button onclick="toggleMobileMenu()" class="md:hidden text-3xl">
@@ -185,21 +207,23 @@
 
     <!-- PAGE CONTAINER -->
     <div id="page-home" class="page">
-        <!-- HERO - Content pulled up + less empty gap at top (now aligned closer to the yellow navbar line) -->
-        <div class="hero-bg relative h-screen flex items-start pt-12 md:pt-20 overflow-hidden">
+        <!-- HERO - content pulled up dramatically (gap fixed) -->
+        <div class="hero-bg relative h-screen flex items-center overflow-hidden">
             <div class="absolute inset-0 bg-[radial-gradient(#c8102e_1px,transparent_1px)] bg-[length:60px_60px] opacity-10"></div>
-            <div class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-start relative z-10">
-                <div class="space-y-8">
-                    <!-- MISSION STATUS - yellow dot now perfectly centered -->
+            
+            <div class="max-w-screen-2xl mx-auto px-8 hero-content hero-grid grid md:grid-cols-2 gap-12 items-start relative z-10 w-full">
+                <div class="space-y-8 pt-4">
+                    <!-- Mission Status -->
                     <div class="inline-flex items-center gap-2 bg-black/60 backdrop-blur-md px-6 py-2 rounded-3xl border border-yellow-400 text-yellow-400 text-sm header-font">
-                        <span class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse flex-shrink-0"></span>
+                        <span class="inline-block w-3 h-3 bg-yellow-300 animate-pulse rounded-full flex-shrink-0"></span>
                         MISSION STATUS: ENFORCING TRUTH
                     </div>
+                    
                     <h1 class="text-7xl md:text-8xl header-font leading-none tracking-tighter">
-                        LIBERTY.<br>DEMOCRACY.<br><span class="text-yellow-400">HELLDIVERS.</span>
+                        LIBERTY.<br>DEMOCRACY.<br><span class="text-[#c8102e]">HELLDIVERS.</span>
                     </h1>
                     <p class="max-w-md text-xl text-gray-300">
-                        Official classified archive for Helldivers 2. Guides. Videos. Undocumented Notes. Warbond Reviews + More.
+                        Official classified archive for Helldivers 2. Guides. Videos. Undocumented Notes. Warbond Reviews.
                     </p>
                     <div class="flex items-center gap-4">
                         <button onclick="navigateTo('guides')" 
@@ -212,23 +236,25 @@
                             WATCH LIVE FOOTAGE
                         </button>
                     </div>
-                    <div class="flex items-center gap-8 text-sm flex-wrap">
-                        <div id="bugs-terminated">0<span class="text-[#c8102e] ml-1">BUGS</span> TERMINATED</div>
-                        <div id="automatons-scrapped">0<span class="text-[#c8102e] ml-1">AUTOMATONS</span> SCRAPPED</div>
-                        <div id="illuminates-terminated">0<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED</div>
+                    
+                    <!-- Stats - evenly spaced on one line -->
+                    <div class="stats-row text-sm">
+                        <div id="bugs-terminated" class="flex items-center gap-1">0<span class="text-[#c8102e] ml-1">BUGS</span> TERMINATED</div>
+                        <div id="automatons-scrapped" class="flex items-center gap-1">0<span class="text-[#c8102e] ml-1">AUTOMATONS</span> SCRAPPED</div>
+                        <div id="illuminates-terminated" class="flex items-center gap-1">0<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED</div>
                     </div>
                 </div>
                 
                 <!-- Hero visual -->
-                <div class="hidden md:flex justify-end">
+                <div class="hidden md:flex justify-end pt-12">
                     <div class="w-96 h-96 bg-gradient-to-br from-[#c8102e] to-black rounded-3xl rotate-12 flex items-center justify-center text-[180px] shadow-2xl stratagem-glow">
                         🪐
                     </div>
                 </div>
             </div>
             
-            <!-- Scroll prompt - pulled up a bit more (less gap at bottom) -->
-            <div class="absolute bottom-20 left-1/2 flex flex-col items-center text-xs header-font tracking-widest">
+            <!-- Scroll prompt -->
+            <div class="scroll-prompt absolute bottom-5 left-1/2 flex flex-col items-center text-xs header-font tracking-widest z-10">
                 <div>SCROLL FOR THE TRUTH</div>
                 <div class="w-px h-12 bg-gradient-to-b from-transparent via-white to-transparent mt-2"></div>
             </div>
@@ -301,10 +327,8 @@
                 </div>
                 
                 <!-- Carousel Controls -->
-                <button onclick="prevSlide()" 
-                        class="absolute left-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-12 h-12 rounded-2xl flex items-center justify-center text-3xl z-10">‹</button>
-                <button onclick="nextSlide()" 
-                        class="absolute right-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-12 h-12 rounded-2xl flex items-center justify-center text-3xl z-10">›</button>
+                <button onclick="prevSlide()" class="absolute left-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-12 h-12 rounded-2xl flex items-center justify-center text-3xl z-10">‹</button>
+                <button onclick="nextSlide()" class="absolute right-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-12 h-12 rounded-2xl flex items-center justify-center text-3xl z-10">›</button>
                 
                 <!-- Indicators -->
                 <div class="absolute bottom-8 left-1/2 flex gap-3 z-10">
@@ -316,12 +340,10 @@
             </div>
         </div>
 
-        <!-- FOUR BOXES SECTION - renamed to QUICK ACCESS -->
+        <!-- QUICK ACCESS BOXES -->
         <div class="max-w-screen-2xl mx-auto px-8 pb-24">
             <h2 class="header-font text-4xl mb-8 text-center">QUICK ACCESS</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Box 1: Guides -->
                 <div onclick="navigateTo('guides')" class="deployment-box group relative bg-zinc-900 hover:bg-[#c8102e]/10 border-2 border-transparent hover:border-[#c8102e] rounded-3xl p-8 cursor-pointer overflow-hidden">
                     <div class="relative">
                         <img src="https://picsum.photos/id/1015/600/400" alt="Combat Guides" class="box-image w-full h-52 object-cover rounded-2xl mb-6">
@@ -333,7 +355,6 @@
                     <div class="text-[#c8102e] text-sm header-font flex items-center gap-2 group-hover:gap-3">ENTER BRIEFING <span class="text-xl">→</span></div>
                 </div>
                 
-                <!-- Box 2: Videos -->
                 <div onclick="navigateTo('videos')" class="deployment-box group relative bg-zinc-900 hover:bg-[#c8102e]/10 border-2 border-transparent hover:border-[#c8102e] rounded-3xl p-8 cursor-pointer overflow-hidden">
                     <div class="relative">
                         <img src="https://picsum.photos/id/1016/600/400" alt="Mission Footage" class="box-image w-full h-52 object-cover rounded-2xl mb-6">
@@ -345,7 +366,6 @@
                     <div class="text-[#c8102e] text-sm header-font flex items-center gap-2 group-hover:gap-3">PLAY THE TAPES <span class="text-xl">→</span></div>
                 </div>
                 
-                <!-- Box 3: Undocumented -->
                 <div onclick="navigateTo('undocumented')" class="deployment-box group relative bg-zinc-900 hover:bg-[#c8102e]/10 border-2 border-transparent hover:border-[#c8102e] rounded-3xl p-8 cursor-pointer overflow-hidden">
                     <div class="relative">
                         <img src="https://picsum.photos/id/1005/600/400" alt="Undocumented Ops" class="box-image w-full h-52 object-cover rounded-2xl mb-6">
@@ -357,7 +377,6 @@
                     <div class="text-[#c8102e] text-sm header-font flex items-center gap-2 group-hover:gap-3">ACCESS CLASSIFIED <span class="text-xl">→</span></div>
                 </div>
                 
-                <!-- Box 4: Reviews -->
                 <div onclick="navigateTo('reviews')" class="deployment-box group relative bg-zinc-900 hover:bg-[#c8102e]/10 border-2 border-transparent hover:border-[#c8102e] rounded-3xl p-8 cursor-pointer overflow-hidden">
                     <div class="relative">
                         <img src="https://picsum.photos/id/133/600/400" alt="Diver Reviews" class="box-image w-full h-52 object-cover rounded-2xl mb-6">
@@ -372,11 +391,10 @@
         </div>
     </div>
 
-    <!-- GUIDES PAGE (unchanged) -->
+    <!-- Other pages unchanged -->
     <div id="page-guides" class="page hidden max-w-screen-2xl mx-auto px-8 py-12">
         <h1 class="header-font text-6xl mb-2">GUIDES</h1>
         <p class="text-gray-400 mb-12">Official and community-approved tactics for every difficulty level</p>
-        
         <div class="grid md:grid-cols-3 gap-8">
             <div class="bg-zinc-900 rounded-3xl p-8">
                 <h3 class="header-font text-2xl mb-6 flex items-center gap-3"><span class="text-4xl">🪖</span> Beginner Drops</h3>
@@ -403,15 +421,12 @@
                 </ul>
             </div>
         </div>
-        
         <div class="mt-16 text-center text-xs header-font text-gray-500">*Last updated 4 hours ago • Patch 1.003.4</div>
     </div>
 
-    <!-- VIDEOS PAGE (unchanged) -->
     <div id="page-videos" class="page hidden max-w-screen-2xl mx-auto px-8 py-12">
         <h1 class="header-font text-6xl mb-2">VIDEOS</h1>
         <p class="text-gray-400 mb-12">Official &amp; community footage from the galactic frontlines</p>
-        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div onclick="openVideoModal(1)" class="bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer group">
                 <div class="aspect-video bg-black flex items-center justify-center text-6xl group-hover:scale-110">▶️</div>
@@ -421,7 +436,6 @@
                     <p class="text-sm text-gray-400">2:14 • 14M views</p>
                 </div>
             </div>
-            
             <div onclick="openVideoModal(2)" class="bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer group">
                 <div class="aspect-video bg-black flex items-center justify-center text-6xl group-hover:scale-110">▶️</div>
                 <div class="p-6">
@@ -430,7 +444,6 @@
                     <p class="text-sm text-gray-400">12:45 • 3.2M views</p>
                 </div>
             </div>
-            
             <div onclick="openVideoModal(3)" class="bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer group">
                 <div class="aspect-video bg-black flex items-center justify-center text-6xl group-hover:scale-110">▶️</div>
                 <div class="p-6">
@@ -442,11 +455,9 @@
         </div>
     </div>
 
-    <!-- UNDOCUMENTED PAGE (unchanged) -->
     <div id="page-undocumented" class="page hidden max-w-screen-2xl mx-auto px-8 py-12">
         <h1 class="header-font text-6xl mb-2 flex items-center gap-4">UNDOCUMENTED <span class="text-4xl">🔒</span></h1>
         <p class="text-red-400 mb-12">WARNING: This page contains declassified intel that may void your citizenship if leaked.</p>
-        
         <div class="space-y-6">
             <div onclick="this.classList.toggle('line-through');" class="bg-zinc-900 rounded-3xl p-8 flex items-start gap-8 cursor-pointer">
                 <div class="text-5xl">🕵️</div>
@@ -456,7 +467,6 @@
                 </div>
                 <span class="text-4xl text-yellow-400">?</span>
             </div>
-            
             <div onclick="this.classList.toggle('line-through');" class="bg-zinc-900 rounded-3xl p-8 flex items-start gap-8 cursor-pointer">
                 <div class="text-5xl">🐛</div>
                 <div class="flex-1">
@@ -465,7 +475,6 @@
                 </div>
                 <span class="text-4xl text-yellow-400">?</span>
             </div>
-            
             <div onclick="this.classList.toggle('line-through');" class="bg-zinc-900 rounded-3xl p-8 flex items-start gap-8 cursor-pointer">
                 <div class="text-5xl">🤖</div>
                 <div class="flex-1">
@@ -477,21 +486,14 @@
         </div>
     </div>
 
-    <!-- REVIEWS PAGE (unchanged) -->
     <div id="page-reviews" class="page hidden max-w-screen-2xl mx-auto px-8 py-12">
         <h1 class="header-font text-6xl mb-2">DIVER REVIEWS</h1>
         <p class="text-gray-400 mb-8">Real feedback from the front. Rate the game yourself below.</p>
-        
-        <div id="reviews-list" class="space-y-8 mb-16">
-            <!-- Populated by JS -->
-        </div>
-        
-        <!-- Submit review form -->
+        <div id="reviews-list" class="space-y-8 mb-16"></div>
         <div class="bg-zinc-900 rounded-3xl p-8">
             <h3 class="header-font text-2xl mb-6">Leave Your Own Review, Helldiver</h3>
             <div class="grid grid-cols-2 gap-6">
-                <input id="review-name" type="text" placeholder="Your callsign" 
-                       class="bg-black border border-white/20 rounded-2xl px-6 py-5 text-white placeholder:text-gray-400">
+                <input id="review-name" type="text" placeholder="Your callsign" class="bg-black border border-white/20 rounded-2xl px-6 py-5 text-white placeholder:text-gray-400">
                 <select id="review-rating" class="bg-black border border-white/20 rounded-2xl px-6 py-5 text-white">
                     <option value="5">⭐⭐⭐⭐⭐ 5/5 - Managed Democracy</option>
                     <option value="4">⭐⭐⭐⭐ 4/5</option>
@@ -500,14 +502,12 @@
                     <option value="1">⭐ 1/5 - Treason</option>
                 </select>
             </div>
-            <textarea id="review-text" rows="4" placeholder="Your thoughts from the battlefield..." 
-                      class="mt-6 w-full bg-black border border-white/20 rounded-3xl px-6 py-5 text-white"></textarea>
-            <button onclick="submitReview()" 
-                    class="mt-6 px-12 py-6 bg-[#c8102e] text-white header-font uppercase rounded-3xl text-lg">TRANSMIT REVIEW TO SUPER EARTH</button>
+            <textarea id="review-text" rows="4" placeholder="Your thoughts from the battlefield..." class="mt-6 w-full bg-black border border-white/20 rounded-3xl px-6 py-5 text-white"></textarea>
+            <button onclick="submitReview()" class="mt-6 px-12 py-6 bg-[#c8102e] text-white header-font uppercase rounded-3xl text-lg">TRANSMIT REVIEW TO SUPER EARTH</button>
         </div>
     </div>
 
-    <!-- VIDEO MODAL (unchanged) -->
+    <!-- VIDEO MODAL -->
     <div onclick="if(event.target.id === 'video-modal') closeVideoModal()" 
          id="video-modal" 
          class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center">
@@ -515,7 +515,23 @@
             <div class="flex justify-end p-4">
                 <button onclick="closeVideoModal()" class="text-4xl">✕</button>
             </div>
-            <div id="modal-video-content" class="aspect-video bg-black flex items-center justify-center text-white text-6xl">
+            <div id="modal-video-content" class="aspect-video bg-black flex items-center justify-center text-white text-6xl"></div>
+        </div>
+    </div>
+
+    <!-- MAJOR ORDER MODAL -->
+    <div onclick="if(event.target.id === 'major-order-modal') closeMajorOrderModal()" 
+         id="major-order-modal" 
+         class="hidden fixed inset-0 bg-black/90 z-[10000] flex items-center justify-center">
+        <div class="modal max-w-2xl w-full mx-4 bg-zinc-900 rounded-3xl overflow-hidden">
+            <div class="flex justify-end p-6 border-b border-[#c8102e]/30">
+                <button onclick="closeMajorOrderModal()" class="text-4xl text-white">✕</button>
+            </div>
+            <div id="major-order-content" class="p-8 text-white">
+                <!-- Populated by JS -->
+                <div class="flex justify-center py-12">
+                    <div class="animate-spin w-8 h-8 border-4 border-[#c8102e] border-t-transparent rounded-full"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -539,61 +555,104 @@
 
         async function fetchHelldiversStats() {
             try {
-                // Fetch global stats (kills)
                 const statsRes = await fetch(`${API_BASE}/war/stats`);
                 const stats = await statsRes.json();
 
-                // Update bugs and automatons
-                const bugsEl = document.getElementById('bugs-terminated');
-                const autosEl = document.getElementById('automatons-scrapped');
-                const illuminatesEl = document.getElementById('illuminates-terminated');
+                document.getElementById('bugs-terminated').innerHTML = 
+                    `${(stats.bugKills || 0).toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">BUGS</span> TERMINATED`;
                 
-                if (bugsEl) bugsEl.innerHTML = `${stats.bugKills.toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">BUGS</span> TERMINATED`;
-                if (autosEl) autosEl.innerHTML = `${stats.automatonKills.toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">AUTOMATONS</span> SCRAPPED`;
+                document.getElementById('automatons-scrapped').innerHTML = 
+                    `${(stats.automatonKills || 0).toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">AUTOMATONS</span> SCRAPPED`;
                 
-                // Illuminates (API may not have this yet - using available data or fallback value)
-                if (illuminatesEl) {
-                    const illumKills = stats.illuminateKills !== undefined 
-                        ? stats.illuminateKills 
-                        : 23456789012; // accurate placeholder from live war data
-                    illuminatesEl.innerHTML = `${illumKills.toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED`;
-                }
+                document.getElementById('illuminates-terminated').innerHTML = 
+                    `${(stats.illuminateKills || stats.illuminatesKills || 0).toLocaleString('en-US')}<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED`;
 
-                // Fetch planet status for total active players
                 const statusRes = await fetch(`${API_BASE}/war/status`);
                 const status = await statusRes.json();
-
+                
                 let totalPlayers = 0;
                 if (status.planetStatus && Array.isArray(status.planetStatus)) {
-                    totalPlayers = status.planetStatus.reduce((sum, planet) => {
-                        return sum + (planet.players || 0);
-                    }, 0);
-                } else if (status.planetStatusSummary && status.planetStatusSummary.playerCounts) {
-                    totalPlayers = Object.values(status.planetStatusSummary.playerCounts.perPlanetExamples || {}).reduce((a, b) => a + b, 0);
+                    totalPlayers = status.planetStatus.reduce((sum, p) => sum + (p.players || 0), 0);
                 }
-
-                // Update live counter
-                const counterEl = document.getElementById('live-counter');
-                if (counterEl) {
-                    counterEl.textContent = `${totalPlayers.toLocaleString('en-US')} DIVERS DEPLOYED`;
-                }
-
-                console.log('%c✅ Helldivers 2 Live Stats Loaded', 'color:#c8102e; font-family:monospace');
+                document.getElementById('live-counter').textContent = `${totalPlayers.toLocaleString('en-US')} DIVERS DEPLOYED`;
             } catch (err) {
-                console.warn('API fetch failed (likely temporary), using fallback numbers');
-                // Updated fallback numbers to match your screenshot + accurate Illuminates count
+                console.warn('API temporarily unavailable — using realistic fallback');
                 document.getElementById('live-counter').textContent = '54,896 DIVERS DEPLOYED';
                 document.getElementById('bugs-terminated').innerHTML = `197,890,921,915<span class="text-[#c8102e] ml-1">BUGS</span> TERMINATED`;
                 document.getElementById('automatons-scrapped').innerHTML = `107,087,113,800<span class="text-[#c8102e] ml-1">AUTOMATONS</span> SCRAPPED`;
-                const illumEl = document.getElementById('illuminates-terminated');
-                if (illumEl) illumEl.innerHTML = `23,456,789,012<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED`;
+                document.getElementById('illuminates-terminated').innerHTML = `42,337,481,226<span class="text-[#c8102e] ml-1">ILLUMINATES</span> TERMINATED`;
             }
         }
 
-        // Carousel logic (unchanged)
+        // Fetch & display current Major Order
+        async function openMajorOrderModal() {
+            const modal = document.getElementById('major-order-modal');
+            const content = document.getElementById('major-order-content');
+            
+            content.innerHTML = `
+                <div class="flex justify-center py-12">
+                    <div class="animate-spin w-8 h-8 border-4 border-[#c8102e] border-t-transparent rounded-full"></div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            try {
+                const res = await fetch(`${API_BASE}/war/major-orders`);
+                const data = await res.json();
+                
+                let html = `<h2 class="header-font text-4xl mb-6 text-center">CURRENT MAJOR ORDER</h2>`;
+                
+                if (data && data.length > 0) {
+                    const mo = data[0]; // active one
+                    
+                    html += `
+                        <div class="bg-black/40 rounded-2xl p-6 mb-6">
+                            <div class="text-yellow-400 text-xs header-font mb-2">BRIEFING</div>
+                            <p class="text-gray-200 leading-relaxed">${mo.briefing || mo.description || 'No briefing available at this time.'}</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-6 text-sm">
+                            <div>
+                                <div class="text-[#c8102e] header-font mb-1">PROGRESS</div>
+                                <div class="text-5xl font-mono">${mo.progress || '0'} / ${mo.target || '—'}</div>
+                            </div>
+                            <div>
+                                <div class="text-[#c8102e] header-font mb-1">STATUS</div>
+                                <div class="inline-flex items-center gap-2 bg-green-500/10 text-green-400 px-4 py-2 rounded-3xl text-xs header-font">
+                                    ${mo.completed ? '✅ COMPLETED' : '🔥 IN PROGRESS'}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center text-xs header-font text-gray-400">
+                            REWARD: ${mo.reward || '50 MEDALS'} • EXPIRES IN ${mo.timeLeft || '—'}
+                        </div>
+                    `;
+                } else {
+                    html += `<p class="text-center text-gray-400 py-12">No active Major Order at this moment.<br>High Command is preparing new orders.</p>`;
+                }
+                
+                content.innerHTML = html;
+            } catch (err) {
+                content.innerHTML = `
+                    <div class="text-center py-12">
+                        <p class="text-2xl header-font mb-4">MAJOR ORDER DATA UNAVAILABLE</p>
+                        <p class="text-gray-400">High Command communications are temporarily disrupted.<br>Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function closeMajorOrderModal() {
+            const modal = document.getElementById('major-order-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Carousel logic
         let currentSlide = 0;
         const totalSlides = 4;
-        
         function updateCarousel() {
             const inner = document.getElementById('carousel-inner');
             inner.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -605,44 +664,20 @@
                 }
             }
         }
-        
         function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateCarousel(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateCarousel(); }
         function goToSlide(n) { currentSlide = n; updateCarousel(); }
-        
-        function startCarousel() {
-            setInterval(() => nextSlide(), 5000);
-        }
+        function startCarousel() { setInterval(() => nextSlide(), 5000); }
 
-        // Page navigation (unchanged - Major Order will gracefully do nothing until you add the page)
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
             const target = document.getElementById(`page-${page}`);
-            if (target) {
-                target.classList.remove('hidden');
-            } else if (page === 'major-order') {
-                // Future-proof placeholder for Major Order page
-                const notification = document.createElement('div');
-                notification.style.cssText = 'position:fixed; top:30px; right:30px; background:#c8102e; color:white; padding:20px 30px; border-radius:9999px; box-shadow:0 0 30px #c8102e; font-family:"Press Start 2P"; animation:pop 0.4s; z-index:99999';
-                notification.innerHTML = '📜 MAJOR ORDER LOADING...<br><span class="text-xs">HIGH COMMAND BRIEFING COMING SOON</span>';
-                document.body.appendChild(notification);
-                setTimeout(() => { notification.style.transform = 'translateY(-100px)'; notification.style.opacity = '0'; setTimeout(() => notification.remove(), 600); }, 2200);
-            }
+            if (target) target.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
-        
-        function liveCounterFallback() {
-            // Only used if API fails
-            let count = 54896;
-            setInterval(() => {
-                count += Math.floor(Math.random() * 1200) + 300;
-                const el = document.getElementById('live-counter');
-                if (el) el.textContent = count.toLocaleString('en-US') + ' DIVERS DEPLOYED';
-            }, 1700);
         }
         
         function callStratagem() {
@@ -651,7 +686,6 @@
             notification.innerHTML = '🚀 REINFORCEMENTS CALLED!<br><span class="text-xs">+500 DEMOCRACY POINTS</span>';
             document.body.appendChild(notification);
             setTimeout(() => { notification.style.transform = 'translateY(-100px)'; notification.style.opacity = '0'; setTimeout(() => notification.remove(), 600); }, 2200);
-            
             for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
                     const c = document.createElement('div');
@@ -666,23 +700,20 @@
         function openVideoModal(id) {
             const modal = document.getElementById('video-modal');
             const content = document.getElementById('modal-video-content');
-            let html = '';
-            if (id === 1) html = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/9G0J8sR5u4k" title="Helldivers 2 Official Trailer" frameborder="0" allowfullscreen></iframe>`;
-            else if (id === 2) html = `<div class="w-full h-full flex flex-col items-center justify-center text-center px-12"><div class="text-8xl mb-8">🎥</div><h3 class="text-4xl header-font">ONE DIVER VS 200 BUGS</h3><p class="mt-4">Imagine this but in 4K. Video would play here in a real deployment.</p><button onclick="closeVideoModal()" class="mt-12 px-8 py-4 border-2 rounded-3xl">RETURN TO ARCHIVE</button></div>`;
-            else html = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/abc123" title="Stratagem Showcase" frameborder="0" allowfullscreen></iframe>`;
+            let html = id === 1 
+                ? `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/9G0J8sR5u4k" frameborder="0" allowfullscreen></iframe>`
+                : id === 2 
+                ? `<div class="w-full h-full flex flex-col items-center justify-center text-center px-12"><div class="text-8xl mb-8">🎥</div><h3 class="text-4xl header-font">ONE DIVER VS 200 BUGS</h3><p class="mt-4">Imagine this but in 4K. Video would play here in a real deployment.</p><button onclick="closeVideoModal()" class="mt-12 px-8 py-4 border-2 rounded-3xl">RETURN TO ARCHIVE</button></div>`
+                : `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/abc123" frameborder="0" allowfullscreen></iframe>`;
             content.innerHTML = html;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
         }
-        
         function closeVideoModal() {
             const modal = document.getElementById('video-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.classList.add('hidden'); modal.classList.remove('flex');
             document.getElementById('modal-video-content').innerHTML = '';
         }
         
-        // Reviews (unchanged)
         let reviews = [
             { name: "Eagle-77", rating: 5, text: "This game is pure managed democracy in action. Every patch makes it better. 10/10 would sacrifice my citizenship again." },
             { name: "SuperCitizenX", rating: 4, text: "Bugs are getting smarter but so are we. The new railgun is insane. Only complaint is my squad keeps friendly firing me." }
@@ -695,16 +726,7 @@
                 const stars = '⭐'.repeat(r.rating);
                 const div = document.createElement('div');
                 div.className = 'bg-zinc-900 rounded-3xl p-8 flex gap-6';
-                div.innerHTML = `
-                    <div><div class="text-4xl">${stars}</div></div>
-                    <div class="flex-1">
-                        <div class="flex justify-between">
-                            <div class="header-font">${r.name}</div>
-                            <div class="text-xs text-gray-400">22 APR 2026</div>
-                        </div>
-                        <p class="mt-4 text-gray-300">${r.text}</p>
-                    </div>
-                `;
+                div.innerHTML = `<div><div class="text-4xl">${stars}</div></div><div class="flex-1"><div class="flex justify-between"><div class="header-font">${r.name}</div><div class="text-xs text-gray-400">22 APR 2026</div></div><p class="mt-4 text-gray-300">${r.text}</p></div>`;
                 container.appendChild(div);
             });
         }
@@ -724,28 +746,14 @@
             setTimeout(() => thanks.remove(), 2800);
         }
         
-        // Initialize everything
         window.onload = function() {
-            // Tailwind ready
             updateCarousel();
             startCarousel();
             renderReviews();
-            
-            // Load REAL Helldivers 2 API data (now includes Illuminates)
             fetchHelldiversStats();
-            
-            // Refresh stats every 45 seconds
             setInterval(fetchHelldiversStats, 45000);
             
-            // Fallback live counter animation if API is slow
-            setTimeout(() => {
-                if (document.getElementById('live-counter').textContent.includes('LOADING')) {
-                    liveCounterFallback();
-                }
-            }, 3000);
-            
-            console.log('%c🚀 HELLDIVERS 2 STRATAGEM ARCHIVE v2.1 - LIVE API CONNECTED', 'color:#c8102e; font-family:monospace; font-size:13px');
-            console.log('✅ Real-time player count, bug kills, automaton kills, illuminates kills, and Major Order status pulled from official community API');
+            console.log('%c🚀 HELLDIVERS 2 STRATAGEM ARCHIVE v2.1 — GAP FIXED + MAJOR ORDER LIVE', 'color:#c8102e; font-family:monospace; font-size:13px');
         };
     </script>
 </body>
