@@ -1,867 +1,505 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TRUTH ENFORCER - Super Earth Command Center | Managed Democracy Intelligence Network">
-    <title>TRUTH ENFORCER | SUPER EARTH</title>
-    <!-- Tailwind CSS CDN -->
+    <title>TRUTH ENFORCER | Super Earth</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
         
         :root {
-            --neon-yellow: #ffeb3b;
-            --neon-red: #ff0033;
-            --neon-cyan: #00f7ff;
+            --tw-color-amber-glow: #facc15;
         }
         
         * {
-            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
+            font-family: 'Inter', system-ui, sans-serif;
         }
         
         body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .title-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .neon-text {
-            text-shadow: 
-                0 0 10px var(--neon-yellow),
-                0 0 20px var(--neon-yellow),
-                0 0 40px var(--neon-yellow),
-                0 0 60px var(--neon-yellow);
-        }
-        
-        .neon-red {
-            text-shadow: 
-                0 0 10px var(--neon-red),
-                0 0 20px var(--neon-red);
+            background: linear-gradient(180deg, #0a0a0a 0%, #1f1f1f 100%);
         }
         
         .header-glow {
-            box-shadow: 0 0 30px -5px var(--neon-yellow);
+            text-shadow: 0 0 20px rgb(250 204 21), 0 0 40px rgb(250 204 21);
         }
         
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 
-                0 0 25px -5px rgb(234 179 8),
-                0 25px 50px -12px rgb(0 0 0);
-        }
-        
-        .section-header {
+        .nav-link {
             position: relative;
+            transition: all 0.2s ease;
         }
         
-        .section-header::after {
+        .nav-link:hover {
+            color: #facc15;
+            text-shadow: 0 0 15px #facc15;
+        }
+        
+        .nav-link.active::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -2px;
             left: 0;
-            width: 60px;
+            right: 0;
             height: 3px;
-            background: linear-gradient(to right, #ffeb3b, transparent);
+            background: #facc15;
+            box-shadow: 0 0 12px #facc15;
         }
         
-        /* Carousel styles */
-        .carousel-slide {
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        .main-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
         }
         
-        /* Scanline animation for cyberpunk feel */
-        .scanline {
+        .main-card:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 
+                0 0 0 6px #ffffff,
+                0 0 35px 12px rgba(255, 255, 255, 0.65),
+                0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 300%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+            transform: skewX(-25deg);
+            opacity: 0;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.7s ease-out;
+        }
+        
+        .main-card:hover::before {
+            animation: shine 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+            15% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { transform: translateX(300%) skewX(-25deg); opacity: 0; }
+        }
+        
+        .card-accent-red { border: 4px solid #ef4444; }
+        .card-accent-yellow { border: 4px solid #facc15; }
+        .card-accent-orange { border: 4px solid #f97316; }
+        .card-accent-cyan { border: 4px solid #22d3ee; }
+        
+        .card-inner { transition: all 0.3s ease; }
+        .main-card:hover .card-inner { filter: brightness(1.15) contrast(1.1); }
+        
+        .latest-card {
+            transition: all 0.3s ease;
+        }
+        
+        .latest-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px -4px #ffffff;
+        }
+        
+        /* HERO SLIDER */
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 4px solid #ffffff20;
+            box-shadow: 0 10px 30px -10px rgba(255,255,255,0.3);
+        }
+        
+        .slides-wrapper {
+            display: flex;
+            transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slide {
+            min-width: 100%;
             position: relative;
         }
         
-        .scanline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .slide img {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                to bottom,
-                transparent 50%,
-                rgba(255, 235, 59, 0.15) 50%
-            );
-            background-size: 100% 6px;
+            display: block;
+            aspect-ratio: 16 / 5;
+            object-fit: cover;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+        }
+        
+        .arrow-btn, .pause-play-btn {
+            width: 48px;
+            height: 48px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            border: 2px solid #ffffff40;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+        
+        .arrow-btn:hover, .pause-play-btn:hover {
+            background: #ffffff;
+            color: #111;
+            transform: scale(1.1);
+        }
+        
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #ffffff30;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background: #facc15;
+            width: 28px;
+            border-radius: 9999px;
+        }
+        
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(250, 204, 21, 0.03) 3px, rgba(250, 204, 21, 0.03) 6px);
             pointer-events: none;
-            animation: scan 4s linear infinite;
-            z-index: 2;
-            opacity: 0.15;
+            z-index: 0;
+            animation: scan 8s linear infinite;
         }
         
         @keyframes scan {
             0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
-        }
-        
-        /* Pulsing live badge */
-        .live-pulse {
-            animation: livePulse 2s infinite;
-        }
-        
-        @keyframes livePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-        
-        /* Background grid */
-        .bg-grid {
-            background-image: 
-                linear-gradient(to right, rgba(255,235,59,0.08) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,235,59,0.08) 1px, transparent 1px);
-            background-size: 80px 80px;
-        }
-        
-        .modal {
-            animation: modalPop 0.3s ease-out forwards;
-        }
-        
-        @keyframes modalPop {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            100% { background-position: 0 100px; }
         }
     </style>
 </head>
-<body class="bg-[#0a0a0a] text-white overflow-x-hidden">
-    <!-- NAVBAR -->
-    <nav class="bg-black/90 backdrop-blur-lg border-b border-yellow-400/30 sticky top-0 z-50 header-glow">
-        <div class="max-w-screen-2xl mx-auto px-8 py-4 flex items-center justify-between">
-            
-            <!-- Logo -->
+<body class="min-h-screen text-white overflow-x-hidden">
+    <!-- HEADER -->
+    <header class="relative z-50 border-b border-amber-300/30 bg-black/70 backdrop-blur-md">
+        <div class="max-w-screen-2xl mx-auto px-8 py-6 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
-                <!-- Badge Icon (custom SVG inspired by Helldivers / Truth Enforcer shield) -->
-                <div class="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full p-1 shadow-[0_0_20px_#ffeb3b]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 3v4M3 5h4M6 17l1.333-2.667M18 17l-1.333-2.667M6 17l-1.333 2.667M18 17l1.333 2.667M14 3l-2 8M10 3l2 8" />
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2.5"/>
+                <h1 class="header-glow text-6xl font-black tracking-[4px] text-amber-300">TRUTH ENFORCER</h1>
+            </div>
+
+            <div class="flex flex-col items-center -mt-2">
+                <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 200 200" fill="none" class="drop-shadow-[0_0_25px_#facc15]">
+                        <path d="M60 45 L80 25 L100 35 L120 25 L140 45" stroke="#facc15" stroke-width="18" stroke-linejoin="round"/>
+                        <path d="M65 48 L80 35 L100 40 L120 35 L135 48" fill="#facc15"/>
+                        <ellipse cx="100" cy="105" rx="48" ry="55" fill="#111" stroke="#facc15" stroke-width="22"/>
+                        <circle cx="68" cy="92" r="12" fill="#facc15"/>
+                        <circle cx="132" cy="92" r="12" fill="#facc15"/>
+                        <path d="M100 105 L92 125 L108 125 Z" fill="#facc15"/>
+                        <path d="M65 135 Q100 160 135 135" fill="none" stroke="#facc15" stroke-width="18"/>
                     </svg>
                 </div>
-                <div>
-                    <h1 class="title-font text-3xl font-bold tracking-[3px] neon-text">TRUTH ENFORCER</h1>
-                    <p class="text-xs tracking-[2px] text-yellow-400 -mt-1 font-medium">SUPER EARTH COMMAND</p>
+                <span class="text-amber-300 text-xl font-black tracking-[6px] mt-1">SUPER EARTH</span>
+            </div>
+
+            <nav class="flex items-center gap-x-8 text-lg font-semibold">
+                <a href="#" class="nav-link active text-amber-300">OVERVIEW</a>
+                <a href="#" class="nav-link">NEWS</a>
+                <a href="#" class="nav-link">DATABASE</a>
+                <a href="#" class="nav-link">COMMUNITY</a>
+                <a href="#" class="nav-link">STORE</a>
+                <div class="w-9 h-9 bg-zinc-800 hover:bg-amber-300 hover:text-black rounded-2xl flex items-center justify-center text-2xl transition-all cursor-pointer border border-amber-300/50 hover:border-amber-300">👤</div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-screen-2xl mx-auto px-8 pt-8 pb-16">
+        
+        <!-- HERO SLIDER -->
+        <div class="hero-slider mb-12 bg-zinc-950">
+            <div id="slides-wrapper" class="slides-wrapper">
+                <!-- SLIDE 1 -->
+                <div class="slide">
+                    <a href="https://example.com/slide1" target="_blank" id="slide-link-1">
+                        <img id="slide-img-1" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+1+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 1">
+                    </a>
+                </div>
+                <!-- SLIDE 2 -->
+                <div class="slide">
+                    <a href="https://example.com/slide2" target="_blank" id="slide-link-2">
+                        <img id="slide-img-2" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+2+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 2">
+                    </a>
+                </div>
+                <!-- SLIDE 3 -->
+                <div class="slide">
+                    <a href="https://example.com/slide3" target="_blank" id="slide-link-3">
+                        <img id="slide-img-3" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+3+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 3">
+                    </a>
+                </div>
+                <!-- SLIDE 4 -->
+                <div class="slide">
+                    <a href="https://example.com/slide4" target="_blank" id="slide-link-4">
+                        <img id="slide-img-4" src="https://placehold.co/1600x600/111111/ffffff?text=SLIDE+4+-+REPLACE+WITH+YOUR+IMAGE" alt="Slide 4">
+                    </a>
                 </div>
             </div>
 
-            <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium uppercase tracking-widest">
-                <a onclick="navigateToSection('overview')" class="hover:text-yellow-400 flex items-center gap-x-1 group">
-                    <span>OVERVIEW</span>
-                    <div class="w-2 h-2 bg-yellow-400 rounded-full scale-0 group-hover:scale-100"></div>
-                </a>
-                <a onclick="navigateToSection('news')" class="hover:text-yellow-400">NEWS</a>
-                <a onclick="navigateToSection('database')" class="hover:text-yellow-400">DATABASE</a>
-                <a onclick="navigateToSection('community')" class="hover:text-yellow-400">COMMUNITY</a>
-                <a onclick="navigateToSection('store')" class="hover:text-yellow-400">STORE</a>
+            <!-- Controls -->
+            <div class="slider-controls">
+                <button onclick="prevSlide()" class="arrow-btn">‹</button>
+                <button onclick="togglePause()" id="pause-play-btn" class="pause-play-btn">⏸️</button>
+                <button onclick="nextSlide()" class="arrow-btn">›</button>
+                <div id="slider-dots" class="dots"></div>
+            </div>
+        </div>
+
+        <!-- MAIN CARDS GRID -->
+        <div class="grid grid-cols-4 gap-6">
+            <!-- CARD 1: Issues & Changes -->
+            <div class="main-card card-accent-red bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-red-600 to-rose-500 text-white font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">🔧</span> Issues &amp; Changes</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box1" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+ISSUES+%26+CHANGES+BOX+IMAGE" alt="Issues &amp; Changes Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Known Issues • Patch Notes •<br>Undocumented Changes</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">VIEW ALL UPDATES <span class="text-lg leading-none">→</span></a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Right side controls -->
-            <div class="flex items-center gap-x-6">
-                <!-- Live Global Threat Level -->
-                <div class="hidden lg:flex items-center bg-black/70 border border-red-500/50 px-4 py-1 rounded-3xl text-xs font-mono uppercase tracking-widest">
-                    <div class="w-2 h-2 bg-red-500 rounded-full mr-2 animate-ping"></div>
-                    THREAT LEVEL: <span class="text-red-400 font-bold ml-1">OMEGA-7</span>
-                </div>
-                
-                <!-- Enlist Button -->
-                <button onclick="showEnlistModal()" 
-                        class="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-black font-bold px-6 py-2 rounded-2xl flex items-center gap-x-2 text-sm uppercase tracking-widest shadow-[0_0_20px_#ffeb3b]">
-                    <i class="fa-solid fa-rocket"></i>
-                    ENLIST NOW
-                </button>
-                
-                <!-- User -->
-                <div onclick="fakeLogin()" class="flex items-center gap-x-2 cursor-pointer">
-                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-yellow-400 rounded-2xl flex items-center justify-center text-black font-bold text-xl shadow-inner">🇸🇪</div>
-                    <div class="hidden md:block">
-                        <p class="text-xs font-mono">SE-001-47</p>
-                        <p class="text-[10px] text-yellow-400">DEMOCRACY OFFICER</p>
+            <!-- CARD 2: Community Reports (yellow) -->
+            <div class="main-card card-accent-yellow bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-amber-400 to-yellow-300 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">👥</span> Community Reports</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box2" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+COMMUNITY+REPORTS+BOX+IMAGE" alt="Community Reports Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Player videos, clips &amp; bug reports</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">SEE COMMUNITY <span class="text-lg leading-none">→</span></a>
                     </div>
                 </div>
-                
-                <!-- Mobile menu toggle -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-2xl">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
             </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-black/95 border-t border-yellow-400/30 px-8 py-6 text-sm uppercase tracking-widest">
-            <a onclick="navigateToSection('overview');toggleMobileMenu()" class="block py-3">OVERVIEW</a>
-            <a onclick="navigateToSection('news');toggleMobileMenu()" class="block py-3">NEWS</a>
-            <a onclick="navigateToSection('database');toggleMobileMenu()" class="block py-3">DATABASE</a>
-            <a onclick="navigateToSection('community');toggleMobileMenu()" class="block py-3">COMMUNITY</a>
-            <a onclick="navigateToSection('store');toggleMobileMenu()" class="block py-3">STORE</a>
-        </div>
-    </nav>
 
-    <!-- HERO CAROUSEL -->
-    <div id="overview" class="relative scanline bg-[#111] h-screen flex items-center justify-center overflow-hidden">
-        
-        <!-- Background grid + subtle glow -->
-        <div class="absolute inset-0 bg-grid pointer-events-none"></div>
-        
-        <div class="relative max-w-screen-2xl mx-auto px-8 w-full z-10">
-            
-            <!-- Carousel Container -->
-            <div class="relative rounded-3xl overflow-hidden border-2 border-yellow-400/30 shadow-2xl shadow-yellow-400/20" style="height: 520px;">
-                
-                <!-- Slides -->
-                <div id="carousel" class="flex h-full">
-                    
-                    <!-- Slide 1 -->
-                    <div id="slide-1" class="carousel-slide min-w-full bg-gradient-to-br from-black via-[#1a1a2e] to-black flex items-center justify-center relative">
-                        <div class="text-center px-12">
-                            <div class="inline-flex items-center gap-x-3 bg-red-500/10 border border-red-500 text-red-400 text-xs font-mono px-6 py-2 rounded-3xl mb-8">
-                                <i class="fa-solid fa-satellite-dish animate-pulse"></i>
-                                LIVE FROM SUPER EARTH ORBIT
-                            </div>
-                            <h2 class="title-font text-7xl md:text-8xl font-bold tracking-tighter neon-text mb-4 leading-none">WELCOME TO<br>THE TRUTH</h2>
-                            <p class="text-2xl text-yellow-400 max-w-xl mx-auto mb-10">The only source of unfiltered Managed Democracy intelligence.</p>
-                            <button onclick="viewLatestBroadcast()" 
-                                    class="px-10 py-5 bg-white text-black font-bold text-xl rounded-2xl flex items-center gap-x-4 mx-auto hover:scale-105">
-                                <i class="fa-solid fa-play"></i>
-                                WATCH BROADCAST #47
-                            </button>
-                        </div>
-                        <!-- Fake image overlay -->
-                        <div class="absolute bottom-8 right-8 bg-black/70 text-xs font-mono px-4 py-2 rounded-2xl border border-yellow-400/50 flex items-center">
-                            <span class="text-green-400">● LIVE</span>
-                            <span class="ml-3">2,847,391 HELLDIVERS ONLINE</span>
-                        </div>
+            <!-- CARD 3: Recent Videos -->
+            <div class="main-card card-accent-orange bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-500 to-amber-400 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">📹</span> Recent Videos</div>
                     </div>
-                    
-                    <!-- Slide 2 -->
-                    <div id="slide-2" class="carousel-slide min-w-full bg-gradient-to-br from-[#1a0f00] via-orange-950 to-black hidden flex-col items-center justify-center">
-                        <div class="text-center">
-                            <i class="fa-solid fa-explosion text-8xl text-orange-400 mb-8"></i>
-                            <h2 class="title-font text-6xl font-bold tracking-tighter mb-3">NEW STRATAGEMS UNLOCKED</h2>
-                            <p class="text-3xl text-orange-300">Eagle 500kg Bomb • Orbital Railcannon Strike • Shield Generator Pack</p>
-                            <p class="mt-8 text-yellow-400 text-xl">Patch 1.004.1 — Deploying now</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Slide 3 -->
-                    <div id="slide-3" class="carousel-slide min-w-full bg-gradient-to-br from-cyan-950 via-black to-black hidden flex-col items-center justify-center">
-                        <div class="text-center">
-                            <div class="text-cyan-400 text-8xl mb-8">🪐</div>
-                            <h2 class="title-font text-6xl font-bold tracking-tighter mb-4">AUTOMATON INCURSION DETECTED</h2>
-                            <p class="max-w-md mx-auto text-xl">Sector 4-7 under siege. Truth Enforcers required immediately.</p>
-                            <div class="mt-12 flex gap-4 justify-center">
-                                <div class="px-8 py-3 border border-cyan-400 text-cyan-400 rounded-3xl text-sm font-mono">DEFEND SUPER EARTH</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Carousel Controls -->
-                <div class="absolute bottom-8 left-1/2 flex gap-x-4 -translate-x-1/2 z-20">
-                    <button onclick="prevSlide()" class="w-12 h-12 rounded-2xl bg-black/70 hover:bg-yellow-400 hover:text-black flex items-center justify-center text-2xl">
-                        ←
-                    </button>
-                    <div id="dots" class="flex gap-x-3 items-center"></div>
-                    <button onclick="nextSlide()" class="w-12 h-12 rounded-2xl bg-black/70 hover:bg-yellow-400 hover:text-black flex items-center justify-center text-2xl">
-                        →
-                    </button>
-                </div>
-                
-                <!-- Slide indicator text -->
-                <div class="absolute top-8 right-8 bg-black/60 text-yellow-400 font-mono text-xs px-5 py-2 rounded-3xl border border-yellow-400/30 flex items-center gap-2">
-                    <span id="current-slide">01</span> / 03
-                </div>
-            </div>
-        </div>
-        
-        <!-- Scroll prompt -->
-        <div class="absolute bottom-12 left-1/2 flex flex-col items-center text-yellow-400/70 text-xs tracking-[2px] animate-bounce">
-            <i class="fa-solid fa-chevron-down text-3xl"></i>
-            <span class="mt-1">INTELLIGENCE FEED BELOW</span>
-        </div>
-    </div>
-
-    <!-- QUICK DASHBOARD CARDS -->
-    <div class="max-w-screen-2xl mx-auto px-8 -mt-12 relative z-20 pb-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Issues & Changes -->
-            <div onclick="showModal('issues')" class="card-hover bg-black border-2 border-red-500 rounded-3xl overflow-hidden cursor-pointer">
-                <div class="bg-red-500 text-black font-bold px-6 py-3 flex items-center gap-x-3 uppercase text-sm">
-                    <i class="fa-solid fa-wrench"></i>
-                    ISSUES &amp; CHANGES
-                </div>
-                <div class="p-6">
-                    <div class="h-44 bg-[#1a1a1a] rounded-2xl flex items-center justify-center border border-red-500/30 mb-6 text-red-400/70">
-                        <div class="text-center">
-                            <i class="fa-solid fa-file-shield text-6xl mb-3"></i>
-                            <p class="text-xs font-mono">YOUR PATCH NOTES VISUAL</p>
-                        </div>
-                    </div>
-                    <div class="space-y-4 text-sm">
-                        <div class="flex justify-between"><span class="text-red-400">Known Issues</span><span class="font-mono">12</span></div>
-                        <div class="flex justify-between"><span class="text-red-400">Patch Notes</span><span class="font-mono text-green-400">• LIVE</span></div>
-                        <div class="flex justify-between"><span class="text-red-400">Undocumented Changes</span><span class="font-mono">4</span></div>
-                    </div>
-                    <div class="mt-8 text-xs uppercase text-red-400 flex items-center justify-between font-medium">
-                        <span>VIEW ALL UPDATES →</span>
-                        <span class="px-4 py-1 bg-red-500/10 rounded-3xl">v1.004.1</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Community Reports -->
-            <div onclick="showModal('community')" class="card-hover bg-black border-2 border-yellow-400 rounded-3xl overflow-hidden cursor-pointer">
-                <div class="bg-yellow-400 text-black font-bold px-6 py-3 flex items-center gap-x-3 uppercase text-sm">
-                    <i class="fa-solid fa-users"></i>
-                    COMMUNITY REPORTS
-                </div>
-                <div class="p-6">
-                    <div class="h-44 bg-[#1a1a1a] rounded-2xl flex items-center justify-center border border-yellow-400/30 mb-6 text-yellow-400/70">
-                        <i class="fa-solid fa-clipboard-list text-7xl"></i>
-                    </div>
-                    <p class="text-sm mb-6">Player videos, clips &amp; bug reports from the frontlines</p>
-                    <div class="flex items-center justify-between text-xs font-mono">
-                        <div>1,284 NEW REPORTS</div>
-                        <div class="text-yellow-400">SEE COMMUNITY →</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Recent Videos -->
-            <div onclick="showModal('videos')" class="card-hover bg-black border-2 border-orange-500 rounded-3xl overflow-hidden cursor-pointer relative">
-                <div class="bg-orange-500 text-black font-bold px-6 py-3 flex items-center gap-x-3 uppercase text-sm">
-                    <i class="fa-solid fa-video"></i>
-                    RECENT VIDEOS
-                </div>
-                <div class="p-6">
-                    <div class="h-44 bg-[#1a1a1a] rounded-2xl flex items-center justify-center border border-orange-500/30 mb-6 relative">
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box3" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+RECENT+VIDEOS+BOX+IMAGE" alt="Recent Videos Box Design" class="w-full h-full object-cover rounded-b-2xl">
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-16 h-16 bg-orange-500/90 rounded-2xl flex items-center justify-center text-4xl shadow-[0_0_30px_#f59e0b]">
-                                ▶
-                            </div>
+                            <div class="w-20 h-20 bg-black/70 backdrop-blur-sm rounded-3xl flex items-center justify-center text-5xl border-2 border-orange-300">▶️</div>
                         </div>
-                        <p class="text-xs text-center font-mono absolute bottom-4">Latest Helldivers 2 content</p>
                     </div>
-                    <div class="text-sm">PATRIOT DEBRIEFING — Stratagems &amp; Loadouts</div>
-                    <div class="mt-8 text-xs uppercase text-orange-400 flex justify-between font-medium">
-                        <span>WATCH NOW →</span>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Latest Helldivers 2 content</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">WATCH NOW <span class="text-lg leading-none">→</span></a>
                     </div>
                 </div>
             </div>
-            
-            <!-- Resources -->
-            <div onclick="showModal('resources')" class="card-hover bg-black border-2 border-cyan-400 rounded-3xl overflow-hidden cursor-pointer">
-                <div class="bg-cyan-400 text-black font-bold px-6 py-3 flex items-center gap-x-3 uppercase text-sm">
-                    <i class="fa-solid fa-book"></i>
-                    RESOURCES
-                </div>
-                <div class="p-6">
-                    <div class="h-44 bg-[#1a1a1a] rounded-2xl flex items-center justify-center border border-cyan-400/30 mb-6 text-cyan-400/70">
-                        <i class="fa-solid fa-link text-6xl"></i>
-                    </div>
-                    <p class="text-sm">Tools, wikis, official stratagem guides &amp; more</p>
-                    <div class="mt-8 uppercase text-cyan-400 text-xs font-medium">ARMORY ACCESS →</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- LATEST INTELLIGENCE -->
-    <div id="news" class="max-w-screen-2xl mx-auto px-8 pb-20">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <span class="px-4 py-1 bg-yellow-400 text-black text-xs font-bold rounded-3xl">LIVE FEED</span>
-                <h2 class="title-font text-5xl font-semibold mt-3 neon-text">LATEST INTELLIGENCE</h2>
-            </div>
-            <a onclick="navigateToSection('news')" class="flex items-center text-yellow-400 text-sm font-medium uppercase group">
-                VIEW FULL ARCHIVE 
-                <span class="ml-2 text-xl group-hover:translate-x-1">→</span>
-            </a>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Card 1 -->
-            <div onclick="showModal('broadcast')" class="card-hover bg-[#111] border border-yellow-400/30 rounded-3xl overflow-hidden">
-                <div class="h-52 bg-gradient-to-br from-amber-900 to-black flex items-center justify-center relative">
-                    <div class="text-6xl">📡</div>
-                    <div class="absolute top-4 left-4 bg-black/70 text-xs font-mono px-3 py-1 rounded-3xl">2 days ago</div>
-                </div>
-                <div class="p-6">
-                    <h4 class="font-semibold text-yellow-400">SUPREAD EARTH BROADCAST #47</h4>
-                    <p class="text-sm mt-2">Latest Combat Highlights &amp; Intelligence</p>
-                    <div class="mt-6 flex justify-between text-xs">
-                        <span class="font-mono">HELldivers 2</span>
-                        <span class="text-green-400">• 14K VIEWS</span>
+            <!-- CARD 4: Resources -->
+            <div class="main-card card-accent-cyan bg-zinc-950 p-2 cursor-pointer">
+                <div class="card-inner bg-black rounded-2xl overflow-hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-cyan-400 to-blue-400 text-black font-bold text-xl">
+                        <div class="flex items-center gap-x-3"><span class="text-3xl">📋</span> Resources</div>
+                    </div>
+                    <div class="relative flex-1 flex items-center justify-center bg-zinc-900">
+                        <img id="box4" src="https://placehold.co/800x520/111111/ffffff?text=YOUR+RESOURCES+BOX+IMAGE" alt="Resources Box Design" class="w-full h-full object-cover rounded-b-2xl">
+                    </div>
+                    <div class="px-6 py-5 bg-gradient-to-r from-black to-zinc-900">
+                        <p class="text-sm text-white/90">Tools, wikis &amp; useful links</p>
+                        <a href="#" class="mt-4 inline-flex items-center gap-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium">ARMORY ACCESS <span class="text-lg leading-none">→</span></a>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- LATEST INTELLIGENCE SECTION -->
+        <div class="mt-16">
+            <h2 class="text-amber-300 text-3xl font-black tracking-[3px] mb-6 flex items-center gap-x-4">
+                LATEST INTELLIGENCE
+                <div class="flex-1 h-px bg-gradient-to-r from-amber-300/30 to-transparent"></div>
+            </h2>
             
-            <!-- Card 2 -->
-            <div onclick="showModal('stratagem')" class="card-hover bg-[#111] border border-yellow-400/30 rounded-3xl overflow-hidden">
-                <div class="h-52 bg-gradient-to-br from-red-900 to-black flex items-center justify-center relative">
-                    <div class="text-6xl">🛡️</div>
-                    <div class="absolute top-4 left-4 bg-black/70 text-xs font-mono px-3 py-1 rounded-3xl">7 days ago</div>
-                </div>
-                <div class="p-6">
-                    <h4 class="font-semibold text-yellow-400">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
-                    <p class="text-sm mt-2">Intel on Swsvnt Loadout &amp; Stratagems</p>
-                </div>
-            </div>
-            
-            <!-- Card 3 -->
-            <div onclick="showModal('stratagem')" class="card-hover bg-[#111] border border-yellow-400/30 rounded-3xl overflow-hidden">
-                <div class="h-52 bg-gradient-to-br from-red-900 to-black flex items-center justify-center relative">
-                    <div class="text-6xl">🛡️</div>
-                    <div class="absolute top-4 left-4 bg-black/70 text-xs font-mono px-3 py-1 rounded-3xl">7 days ago</div>
-                </div>
-                <div class="p-6">
-                    <h4 class="font-semibold text-yellow-400">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
-                    <p class="text-sm mt-2">Intel on Swsvnt Loadout &amp; Stratagems</p>
-                </div>
-            </div>
-            
-            <!-- LIVE STREAM -->
-            <div onclick="showModal('live')" class="card-hover bg-[#111] border-2 border-red-500 rounded-3xl overflow-hidden relative">
-                <div class="absolute top-4 right-4 bg-red-500 text-xs font-bold px-5 py-1 rounded-3xl live-pulse flex items-center">
-                    <i class="fa-solid fa-circle mr-1"></i>
-                    LIVE
-                </div>
-                <div class="h-52 bg-gradient-to-br from-red-950 via-black to-black flex items-center justify-center relative">
-                    <div class="text-center">
-                        <i class="fa-solid fa-satellite-dish text-7xl text-red-400 mb-4 animate-pulse"></i>
-                        <p class="font-mono text-sm">REAL-TIME HELLDIVER OPERATIONS</p>
+            <div class="grid grid-cols-4 gap-6">
+                <!-- Latest 1 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest1" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+1" alt="Latest 1" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">SUPREAD EARTH BROADCAST #47</h4>
+                        <p class="text-sm text-amber-300/80">Latest Combat Highlights &amp; Intel</p>
+                        <p class="text-xs text-zinc-400 mt-2">2 days ago</p>
                     </div>
                 </div>
-                <div class="p-6">
-                    <h4 class="font-semibold text-red-400">LIVE STREAM: NOW BROADCASTING</h4>
-                    <p class="text-sm mt-1">Sector 7-B — Automaton Frontline</p>
-                    <div class="text-xs mt-8 font-mono text-red-400">1,284 HELLDIVERS WATCHING</div>
+                
+                <!-- Latest 2 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest2" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+2" alt="Latest 2" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
+                        <p class="text-sm text-red-300/80">Intel on Swsvent Loadout &amp; Stratagems</p>
+                        <p class="text-xs text-zinc-400 mt-2">7 days ago</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ADDITIONAL SECTIONS (to make it a real full website) -->
-    
-    <!-- DATABASE TEASER -->
-    <div id="database" class="bg-black py-20 border-t border-b border-yellow-400/20">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <h2 class="title-font text-5xl font-semibold mb-8 neon-text">STRATAGEM DATABASE</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <!-- Fake stratagem cards -->
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-orange-400/40 hover:border-orange-400">
-                    <div class="text-5xl mb-3">💥</div>
-                    <p class="font-bold">Orbital Precision Strike</p>
-                    <p class="text-xs text-orange-400">Cooldown: 20s</p>
+                
+                <!-- Latest 3 -->
+                <div class="latest-card bg-zinc-900 border border-amber-300/30 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="relative">
+                        <img id="latest3" src="https://placehold.co/600x280/111111/ffffff?text=YOUR+LATEST+INTEL+THUMBNAIL+3" alt="Latest 3" class="w-full h-40 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg">PATRIOT DEBRIEFING ON STRATAGEMS</h4>
+                        <p class="text-sm text-amber-300/80">Intel on Swsvent Loadout &amp; Stratagems</p>
+                        <p class="text-xs text-zinc-400 mt-2">7 days ago</p>
+                    </div>
                 </div>
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-cyan-400/40 hover:border-cyan-400">
-                    <div class="text-5xl mb-3">🛡️</div>
-                    <p class="font-bold">Personal Shield Generator</p>
-                    <p class="text-xs text-cyan-400">Cooldown: 180s</p>
-                </div>
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-yellow-400/40 hover:border-yellow-400">
-                    <div class="text-5xl mb-3">🚀</div>
-                    <p class="font-bold">Eagle 500KG Bomb</p>
-                    <p class="text-xs text-yellow-400">Cooldown: 90s</p>
-                </div>
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-red-400/40 hover:border-red-400">
-                    <div class="text-5xl mb-3">🔥</div>
-                    <p class="font-bold">Napalm Barrage</p>
-                    <p class="text-xs text-red-400">Cooldown: 60s</p>
-                </div>
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-emerald-400/40 hover:border-emerald-400">
-                    <div class="text-5xl mb-3">🧪</div>
-                    <p class="font-bold">Gas Strike</p>
-                    <p class="text-xs text-emerald-400">Cooldown: 45s</p>
-                </div>
-                <div class="bg-[#111] p-4 rounded-3xl text-center border border-purple-400/40 hover:border-purple-400 flex flex-col items-center justify-center">
-                    <p class="text-xl font-bold mb-1">+47 MORE</p>
-                    <button onclick="alert('Full database would open here — GitHub Pages static demo')" 
-                            class="text-xs bg-purple-500 text-white px-8 py-3 rounded-3xl">BROWSE ALL</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- COMMUNITY TEASER -->
-    <div id="community" class="max-w-screen-2xl mx-auto px-8 py-20">
-        <h2 class="title-font text-5xl font-semibold mb-8 neon-text">COMMUNITY HUB</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-[#111] p-8 rounded-3xl border border-yellow-400/30">
-                <p class="uppercase text-xs mb-4 text-yellow-400">Top Helldiver</p>
-                <div class="flex gap-4">
-                    <div class="text-7xl">🏆</div>
-                    <div>
-                        <p class="font-bold text-2xl">@LibertyEagle420</p>
-                        <p class="text-sm">2,394 confirmed kills • 14 missions today</p>
+                
+                <!-- LIVE STREAM -->
+                <div class="latest-card bg-zinc-900 border border-red-500/50 rounded-3xl overflow-hidden cursor-pointer relative">
+                    <div class="relative">
+                        <img id="live" src="https://placehold.co/600x280/111111/ffffff?text=LIVE+STREAM+THUMBNAIL" alt="Live Stream" class="w-full h-40 object-cover">
+                        <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-3xl flex items-center gap-x-1 shadow-[0_0_15px_#ef4444] animate-pulse">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                            LIVE
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg flex items-center gap-x-2">LIVE STREAM <span class="text-red-400 text-sm font-normal">NOW BROADCASTING</span></h4>
+                        <p class="text-sm text-zinc-300">Real-time Helldiver Operations</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-[#111] p-8 rounded-3xl border border-yellow-400/30">
-                <p class="uppercase text-xs mb-4 text-yellow-400">HOT CLIP</p>
-                <div class="aspect-video bg-gradient-to-br from-orange-900 to-black rounded-2xl flex items-center justify-center text-6xl">🎥</div>
-                <p class="mt-4 text-sm">"One man vs entire Automaton factory"</p>
-            </div>
-            <div class="bg-[#111] p-8 rounded-3xl border border-yellow-400/30 flex flex-col justify-center">
-                <p class="text-3xl font-medium">"Managed Democracy is not just a system. It's a weapon."</p>
-                <p class="mt-auto text-xs text-yellow-400 mt-12">— High Command, 2 hours ago</p>
-            </div>
         </div>
-    </div>
-
-    <!-- STORE TEASER -->
-    <div id="store" class="bg-black py-20">
-        <div class="max-w-screen-2xl mx-auto px-8">
-            <h2 class="title-font text-5xl font-semibold mb-8 neon-text">SUPER EARTH ARMORY STORE</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-[#111] rounded-3xl p-6 text-center">
-                    <div class="text-8xl mb-6">🪖</div>
-                    <p class="font-bold">Helldiver Armor Mk.III</p>
-                    <p class="text-yellow-400 text-sm">2,500 Super Credits</p>
-                    <button onclick="fakePurchase()" class="mt-6 w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold py-4 rounded-2xl">PURCHASE FOR DEMOCRACY</button>
-                </div>
-                <div class="bg-[#111] rounded-3xl p-6 text-center border border-dashed border-yellow-400">
-                    <div class="text-8xl mb-6">🚀</div>
-                    <p class="font-bold">Premium Eagle Jetpack</p>
-                    <p class="text-yellow-400 text-sm">1,800 Super Credits</p>
-                    <button onclick="fakePurchase()" class="mt-6 w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold py-4 rounded-2xl">PURCHASE FOR DEMOCRACY</button>
-                </div>
-                <div class="bg-[#111] rounded-3xl p-6 text-center">
-                    <div class="text-8xl mb-6">🧬</div>
-                    <p class="font-bold">Stimm Stimulant Pack</p>
-                    <p class="text-yellow-400 text-sm">800 Super Credits</p>
-                    <button onclick="fakePurchase()" class="mt-6 w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold py-4 rounded-2xl">PURCHASE FOR DEMOCRACY</button>
-                </div>
-                <div class="bg-[#111] rounded-3xl p-6 text-center border-2 border-yellow-400">
-                    <div class="text-8xl mb-6">🏅</div>
-                    <p class="font-bold text-yellow-400">LIMITED EDITION</p>
-                    <p class="font-bold">Liberty Cape</p>
-                    <p class="text-yellow-400 text-sm">4,200 Super Credits</p>
-                    <button onclick="fakePurchase()" class="mt-6 w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold py-4 rounded-2xl">PURCHASE FOR DEMOCRACY</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <!-- FOOTER -->
-    <footer class="bg-black border-t border-yellow-400/20 py-12">
-        <div class="max-w-screen-2xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-y-8 text-sm">
-            <div>
-                <div class="flex items-center gap-x-2 mb-4">
-                    <span class="text-2xl">🇸🇪</span>
-                    <span class="title-font text-2xl neon-text">TRUTH ENFORCER</span>
-                </div>
-                <p class="text-xs font-mono opacity-60">For Super Earth.<br>For Managed Democracy.<br>For Liberty.</p>
+    <footer class="relative z-50 border-t border-amber-300/20 bg-black py-6">
+        <div class="max-w-screen-2xl mx-auto px-8 flex items-center justify-between text-sm">
+            <div class="flex items-center gap-x-3">
+                <div class="w-8 h-8 bg-amber-300 text-black rounded-2xl flex items-center justify-center text-xl">☠️</div>
+                <span class="font-black tracking-widest text-amber-300">SUPER EARTH</span>
             </div>
-            <div class="flex flex-col gap-y-2">
-                <a class="hover:text-yellow-400">High Command Briefings</a>
-                <a class="hover:text-yellow-400">Helldivers Code of Conduct</a>
-                <a class="hover:text-yellow-400">Bug Extermination Logs</a>
+            <div class="text-center text-amber-300/70 text-xs font-medium">
+                DEFEND SUPER EARTH. JOIN THE HELLDIVERS.<br>
+                © 2084 Super Earth Ministry of Truth. All Rights Reserved.
             </div>
-            <div class="flex flex-col gap-y-2">
-                <a class="hover:text-yellow-400">Discord • Truth Enforcers</a>
-                <a class="hover:text-yellow-400">X / Twitter Feed</a>
-                <a class="hover:text-yellow-400">Steam Workshop</a>
-            </div>
-            <div class="text-xs font-mono opacity-60">
-                © 2026 SUPER EARTH MINISTRY OF TRUTH<br>
-                ALL CITIZENS ARE EQUAL<br>
-                <span class="text-yellow-400">VERSION 1.337 • BUILD 42069</span>
-            </div>
+            <div class="text-amber-300/30 text-xs font-mono">MINISTRY OF TRUTH • TRUTH ENFORCER v1.4</div>
         </div>
     </footer>
 
-    <!-- MODALS -->
-    <div onclick="if(event.target.id === 'modal-backdrop')hideModal()" id="modal-backdrop" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-        <div onclick="event.stopImmediatePropagation()" id="modal-content" class="modal bg-[#111] w-full max-w-2xl mx-4 rounded-3xl border border-yellow-400/30 max-h-[85vh] overflow-hidden">
-            <!-- Dynamic content injected by JS -->
-        </div>
-    </div>
+    <div class="scanlines"></div>
 
     <script>
-        // TailwindCSS initialization
-        function initializeTailwind() {
-            return {
-                config(userConfig = {}) {
-                    return {
-                        content: [],
-                        theme: {
-                            extend: {},
-                        },
-                        plugins: [],
-                        ...userConfig,
-                    }
-                },
-                theme: {
-                    extend: {
-                        colors: {
-                            'neon-yellow': '#ffeb3b',
-                        }
-                    }
-                }
-            }
-        }
+        console.log('%c✅ TRUTH ENFORCER UI – FULLY FIXED & READY', 'color:#facc15; font-family:monospace; font-size:13px');
         
-        // Carousel logic
-        let currentSlideIndex = 0
-        const totalSlides = 3
+        // HERO SLIDER
+        let currentSlide = 0;
+        let isPaused = false;
+        let autoInterval = null;
+        const totalSlides = 4;
         
-        function renderDots() {
-            const dotsContainer = document.getElementById('dots')
-            dotsContainer.innerHTML = ''
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const pausePlayBtn = document.getElementById('pause-play-btn');
+        
+        function updateDots() {
+            const dotsContainer = document.getElementById('slider-dots');
+            dotsContainer.innerHTML = '';
             for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('div')
-                dot.className = `w-3 h-3 rounded-full cursor-pointer ${i === currentSlideIndex ? 'bg-yellow-400 shadow-[0_0_12px_#ffeb3b]' : 'bg-white/30'}`
-                dot.onclick = () => goToSlide(i)
-                dotsContainer.appendChild(dot)
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === currentSlide ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
             }
         }
         
-        function showSlide(n) {
-            const slides = document.querySelectorAll('.carousel-slide')
-            slides.forEach((slide, index) => {
-                slide.classList.add('hidden')
-                if (index === n) slide.classList.remove('hidden')
-            })
-            document.getElementById('current-slide').textContent = String(n + 1).padStart(2, '0')
-            currentSlideIndex = n
-            renderDots()
+        function goToSlide(index) {
+            currentSlide = index;
+            slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
         }
         
         function nextSlide() {
-            let next = (currentSlideIndex + 1) % totalSlides
-            showSlide(next)
+            let next = (currentSlide + 1) % totalSlides;
+            goToSlide(next);
+            resetAutoSlide();
         }
         
         function prevSlide() {
-            let prev = (currentSlideIndex - 1 + totalSlides) % totalSlides
-            showSlide(prev)
+            let prev = (currentSlide - 1 + totalSlides) % totalSlides;
+            goToSlide(prev);
+            resetAutoSlide();
         }
         
-        function goToSlide(n) {
-            showSlide(n)
+        function togglePause() {
+            isPaused = !isPaused;
+            pausePlayBtn.textContent = isPaused ? '▶️' : '⏸️';
+            if (isPaused) clearInterval(autoInterval);
+            else startAutoSlide();
         }
         
-        // Auto-advance carousel
-        function startCarousel() {
-            renderDots()
-            showSlide(0)
-            setInterval(() => {
-                nextSlide()
-            }, 6000)
+        function startAutoSlide() {
+            clearInterval(autoInterval);
+            autoInterval = setInterval(() => {
+                if (!isPaused) nextSlide();
+            }, 10000);
         }
         
-        // Modal system
-        let activeModalType = ''
-        
-        function showModal(type) {
-            const modalBackdrop = document.getElementById('modal-backdrop')
-            const modalContent = document.getElementById('modal-content')
-            
-            activeModalType = type
-            modalBackdrop.classList.remove('hidden')
-            modalBackdrop.classList.add('flex')
-            
-            let html = ''
-            
-            switch(type) {
-                case 'issues':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">ISSUES &amp; PATCH NOTES</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <div class="space-y-6 max-h-[420px] overflow-y-auto pr-4">
-                            <div class="border-l-4 border-red-500 pl-6">
-                                <p class="font-medium">Fixed infinite orbital laser bug on Malevelon Creek</p>
-                                <p class="text-xs text-red-400 mt-1">2 hours ago • Patch 1.004.1</p>
-                            </div>
-                            <div class="border-l-4 border-red-500 pl-6">
-                                <p class="font-medium">New undocumented feature: Friendly fire now counts toward democracy score</p>
-                                <p class="text-xs text-red-400 mt-1">Yesterday • Patch 1.004.1</p>
-                            </div>
-                            <div class="border-l-4 border-amber-400 pl-6">
-                                <p class="font-medium">Known issue: Chargers still clip through terrain</p>
-                                <p class="text-xs text-red-400 mt-1">Open • 184 reports</p>
-                            </div>
-                            <div class="text-center text-xs font-mono text-yellow-400 py-8">+ 19 more entries • Full changelog available in the Database</div>
-                        </div>
-                    </div>`
-                    break
-                    
-                case 'community':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">COMMUNITY REPORTS</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-black/50 p-4 rounded-2xl">🎥 "I soloed a Bile Titan with only a pistol" — 8.4k upvotes</div>
-                            <div class="bg-black/50 p-4 rounded-2xl">🐛 "Found a new bug type on Angel's Venture" — Live clip</div>
-                            <div class="bg-black/50 p-4 rounded-2xl">📍 "Helldivers needed at Sector 4-7" — Urgent SOS</div>
-                            <div class="bg-black/50 p-4 rounded-2xl">🔥 "Epic 300-kill clip with new flamethrower"</div>
-                        </div>
-                    </div>`
-                    break
-                    
-                case 'videos':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">RECENT HELLDIVER CONTENT</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex gap-4"><div class="flex-1 aspect-video bg-gradient-to-br from-orange-900 to-black rounded-3xl flex items-center justify-center text-6xl">▶</div><div><p class="font-medium">Patriot Debriefing #12 — Best Loadouts for Automatons</p><p class="text-xs">14 hours ago • 42K views</p></div></div>
-                            <div class="flex gap-4"><div class="flex-1 aspect-video bg-gradient-to-br from-orange-900 to-black rounded-3xl flex items-center justify-center text-6xl">▶</div><div><p class="font-medium">One Helldiver vs 1000 Bugs — INSANE</p><p class="text-xs">2 days ago • 128K views</p></div></div>
-                        </div>
-                    </div>`
-                    break
-                    
-                case 'resources':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">OFFICIAL RESOURCES</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <a href="https://helldivers.fandom.com" target="_blank" class="block mb-6 bg-black/70 hover:bg-yellow-400 hover:text-black p-6 rounded-3xl flex justify-between items-center">📖 Stratagem Wiki <span class="text-3xl">→</span></a>
-                        <a href="#" class="block mb-6 bg-black/70 hover:bg-yellow-400 hover:text-black p-6 rounded-3xl flex justify-between items-center">🛠️ Full Patch Notes Archive <span class="text-3xl">→</span></a>
-                        <a href="#" class="block bg-black/70 hover:bg-yellow-400 hover:text-black p-6 rounded-3xl flex justify-between items-center">📡 Super Earth Radio Stream <span class="text-3xl">→</span></a>
-                    </div>`
-                    break
-                    
-                case 'broadcast':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">SUPREAD EARTH BROADCAST #47</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <div class="aspect-video bg-black rounded-3xl flex items-center justify-center text-8xl border-4 border-yellow-400">📺 LIVE REPLAY</div>
-                        <p class="mt-8 text-center font-medium">Highlights from the latest Super Earth victory over the Automatons.</p>
-                    </div>`
-                    break
-                    
-                case 'stratagem':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold neon-text">PATRIOT DEBRIEFING</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <p class="text-2xl">Everything you need to know about the newest stratagems before your next drop.</p>
-                        <div class="mt-12 text-center text-5xl">🧠</div>
-                    </div>`
-                    break
-                    
-                case 'live':
-                    html = `
-                    <div class="p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-bold text-red-400">LIVE HELLDIVER OPERATIONS</h2>
-                            <button onclick="hideModal()" class="text-4xl text-yellow-400">×</button>
-                        </div>
-                        <div class="aspect-video bg-gradient-to-br from-red-900 to-black flex flex-col items-center justify-center rounded-3xl">
-                            <div class="text-7xl mb-6 animate-pulse">📡</div>
-                            <p class="text-4xl font-bold text-red-400">NOW BROADCASTING</p>
-                            <p class="text-sm font-mono mt-2">Sector 7-B — 1,847 HELLDIVERS DEPLOYED</p>
-                        </div>
-                        <p class="text-center mt-8 text-xs font-mono">This is a static demo — in a real site this would be an embedded Twitch / YouTube live feed</p>
-                    </div>`
-                    break
-                    
-                default:
-                    html = `<div class="p-12 text-center">Modal content would go here. This is a fully interactive demo!</div>`
+        function resetAutoSlide() {
+            if (!isPaused) {
+                clearInterval(autoInterval);
+                startAutoSlide();
             }
+        }
+        
+        function initSlider() {
+            updateDots();
+            startAutoSlide();
             
-            modalContent.innerHTML = html
+            const slider = document.querySelector('.hero-slider');
+            slider.addEventListener('mouseenter', () => { if (!isPaused) clearInterval(autoInterval); });
+            slider.addEventListener('mouseleave', () => { if (!isPaused) startAutoSlide(); });
         }
         
-        function hideModal() {
-            const modalBackdrop = document.getElementById('modal-backdrop')
-            modalBackdrop.classList.add('hidden')
-            modalBackdrop.classList.remove('flex')
-        }
-        
-        // Fake enlist modal
-        function showEnlistModal() {
-            const modalBackdrop = document.getElementById('modal-backdrop')
-            const modalContent = document.getElementById('modal-content')
-            
-            modalBackdrop.classList.remove('hidden')
-            modalBackdrop.classList.add('flex')
-            
-            modalContent.innerHTML = `
-            <div class="p-10 text-center">
-                <h2 class="text-5xl font-bold title-font mb-6 neon-text">YOU HAVE BEEN SELECTED</h2>
-                <p class="text-2xl mb-12">Citizen, the Ministry of Truth needs YOU.</p>
-                <div class="text-8xl mb-12">🇸🇪</div>
-                <button onclick="hideModal();setTimeout(()=>{alert('🎉 Congratulations! You are now a certified Helldiver. Welcome to Super Earth!')}, 800)" 
-                        class="w-72 mx-auto block bg-gradient-to-r from-red-500 to-yellow-400 text-black font-bold text-2xl py-6 rounded-3xl">ACCEPT DEPLOYMENT ORDERS</button>
-                <p class="text-xs mt-8 font-mono text-yellow-400">Service guarantees citizenship</p>
-            </div>`
-        }
-        
-        // Fake actions
-        function fakeLogin() {
-            alert("🔒 Logged in as DEMOCRACY OFFICER SE-001-47\n\n(Static demo — real auth would connect to Super Earth servers)")
-        }
-        
-        function fakePurchase() {
-            hideModal()
-            setTimeout(() => {
-                alert("💸 Transaction approved by Super Earth Treasury.\n\nYour gear is being dropped from orbit right now!")
-            }, 300)
-        }
-        
-        function viewLatestBroadcast() {
-            hideModal()
-            setTimeout(() => {
-                showModal('broadcast')
-            }, 300)
-        }
-        
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu')
-            menu.classList.toggle('hidden')
-        }
-        
-        // Navigation with smooth scroll
-        function navigateToSection(section) {
-            const el = document.getElementById(section)
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth' })
-            }
-            // Close mobile menu if open
-            const mobile = document.getElementById('mobileMenu')
-            if (mobile) mobile.classList.add('hidden')
-        }
-        
-        // Main initialization
-        window.onload = function() {
-            initializeTailwind()
-            startCarousel()
-            
-            console.log('%c🚀 TRUTH ENFORCER SUPER EARTH WEBSITE LOADED SUCCESSFULLY', 'background:#ffeb3b;color:#000;font-size:13px;font-weight:bold;padding:1px 4px;border-radius:2px')
-            console.log('This is a fully badass, production-ready static HTML/CSS/JS site. Copy, host on GitHub Pages, and dominate the frontlines.')
-        }
+        window.onload = initSlider;
     </script>
 </body>
 </html>
