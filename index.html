@@ -1,36 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neural Grid Gaming</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON://TERMINAL v0.8.4 — GRID ACCESS GRANTED</title>
+    
+    <!-- Tailwind CDN (still using it for speed, but we have our own heavy CSS now) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Our main stylesheet (moved out, way more complicated now) -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="min-h-screen overflow-x-hidden relative">
+    
+    <!-- MATRIX RAIN BACKGROUND CANVAS (pure JS cyberpunk) -->
+    <canvas id="matrix-bg" class="fixed inset-0 z-[-1] opacity-30 pointer-events-none"></canvas>
 
-<div class="grid-bg"></div>
-<div class="vignette"></div>
+    <!-- MAIN TERMINAL CONTAINER -->
+    <div class="max-w-7xl mx-auto px-6 pt-8 relative z-10">
+        
+        <!-- TOP TERMINAL BAR WITH LIVE TYPING LOGS -->
+        <div id="terminal-bar" class="terminal-header rounded-t-3xl flex items-center justify-between mb-0">
+            <div class="flex items-center gap-3">
+                <div class="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                <div class="w-4 h-4 bg-emerald-400 rounded-full"></div>
+                <span class="text-2xl tracking-[6px] font-bold text-white ml-4">NEON://TERMINAL v0.8.4</span>
+            </div>
+            <div id="live-log" class="text-emerald-400 text-base font-mono tracking-widest overflow-hidden whitespace-nowrap"></div>
+        </div>
 
-<h1 class="title">NEURAL GRID</h1>
+        <!-- HERO SLIDER (now fully separated + upgraded) -->
+        <div class="crt relative">
+            <div id="slider" class="slide-container">
+                <div id="slides-wrapper" class="slides-wrapper"></div>
 
-<div class="portal-container">
-    <div class="portal" data-link="multiplayer.html">
-        <div class="inner">MULTIPLAYER</div>
+                <!-- CONTROLS -->
+                <div class="absolute bottom-8 left-8 right-8 flex items-center justify-between z-30 px-4">
+                    <button onclick="prevSlide()" 
+                            class="control-btn group">
+                        <span class="text-5xl transition-transform group-active:scale-90">◀</span>
+                    </button>
+                    
+                    <button onclick="togglePlay()" id="play-pause-btn"
+                            class="control-btn group w-20 h-20">
+                        <span id="play-icon" class="text-6xl">▶</span>
+                        <span id="pause-icon" class="hidden text-5xl">❚❚</span>
+                    </button>
+                    
+                    <button onclick="nextSlide()" 
+                            class="control-btn group">
+                        <span class="text-5xl transition-transform group-active:scale-90">▶</span>
+                    </button>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div class="absolute bottom-0 left-0 right-0 h-2 bg-black/60 z-20">
+                    <div id="progress-bar" class="h-full w-0 bg-gradient-to-r from-cyan-400 via-pink-500 to-emerald-400"></div>
+                </div>
+
+                <!-- SLIDE DOTS -->
+                <div id="slide-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3 z-30"></div>
+            </div>
+        </div>
+
+        <!-- RETRO CARTRIDGE SECTION -->
+        <div class="mt-20">
+            <div class="flex justify-center mb-10">
+                <div class="inline-flex items-center gap-6 bg-black border-4 border-emerald-400 px-12 py-4 rounded-3xl text-4xl tracking-widest neon-text">
+                    <span class="animate-pulse">📼</span>
+                    INSERT CARTRIDGE TO BOOT PROJECT
+                    <span class="animate-pulse">📼</span>
+                </div>
+            </div>
+            
+            <div id="cartridges-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Populated by JS for maximum coolness -->
+            </div>
+        </div>
     </div>
 
-    <div class="portal" data-link="reviews.html">
-        <div class="inner">REVIEWS</div>
+    <!-- FOOTER TERMINAL LINE -->
+    <div class="fixed bottom-0 left-0 right-0 bg-black/90 border-t-4 border-pink-500 text-center py-3 text-xs tracking-[3px] text-pink-400 font-mono z-50">
+        SYSTEM STATUS: ONLINE • 10s SLIDE CYCLE ACTIVE • PRESS SPACE TO PAUSE • YOU ARE IN THE GRID
     </div>
 
-    <div class="portal" data-link="clips.html">
-        <div class="inner">CLIPS</div>
-    </div>
-
-    <div class="portal" data-link="leaderboard.html">
-        <div class="inner">LEADERBOARD</div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <!-- All the heavy JavaScript magic lives here -->
+    <script src="js/script.js"></script>
 </body>
 </html>
