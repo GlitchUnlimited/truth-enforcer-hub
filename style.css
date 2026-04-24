@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #111 0%, #000 100%);
+  color: white;
+  position: relative;
+}
+
+/* Moving Grid Background */
+
+.grid-bg {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background-image:
+    linear-gradient(rgba(255,0,60,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,174,0,0.12) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-60px, -60px); }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 50%, black 100%);
+  z-index: 1;
+}
+
+/* Title */
+
+.title {
+  text-align: center;
+  font-size: 4rem;
+  margin-top: 40px;
+  letter-spacing: 8px;
+  background: linear-gradient(90deg, #ff003c, #ffae00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2s infinite alternate;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+/* Portal Boxes */
+
+.portal-container {
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  margin-top: 120px;
+  perspective: 1400px;
+  position: relative;
+  z-index: 2;
+}
+
+.portal {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+
+.portal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #ff003c, #ffae00, #ff003c);
+  background-size: 300% 300%;
+  animation: borderShift 5s linear infinite;
+  filter: blur(10px);
+}
+
+.portal::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 20px;
+  background: rgba(10,10,10,0.9);
+}
+
+.inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 3px;
+  z-index: 5;
+  font-size: 1.1rem;
+}
+
+.portal:hover {
+  transform: rotateX(15deg) rotateY(-15deg) scale(1.1);
+}
+
+@keyframes borderShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* Page Layout */
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  background: black;
+}
+
+.back-btn {
+  margin-top: 40px;
+  padding: 12px 30px;
+  background: linear-gradient(45deg, #ff003c, #ffae00);
+  border: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
